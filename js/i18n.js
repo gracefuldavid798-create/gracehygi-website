@@ -99,6 +99,9 @@ const I18N = {
       footer_brand: '',      footer_products: 'Products',
       footer_company_links: 'Company',
       footer_contact_us: 'Contact',
+      footer_email: 'Email:',
+      footer_phone: 'Phone:',
+      footer_address_label: 'Address:',
       footer_address: 'Weifang, Shandong Province, China',
       footer_rights: 'All rights reserved.',
 
@@ -429,6 +432,9 @@ const I18N = {
       footer_products: '产品中心',
       footer_company_links: '关于我们',
       footer_contact_us: '联系我们',
+      footer_email: '邮箱：',
+      footer_phone: '电话：',
+      footer_address_label: '地址：',
       footer_address: '中国山东省潍坊市',
       footer_rights: '版权所有。',
 
@@ -701,6 +707,7 @@ const I18N = {
       cta_btn: 'Contáctenos',
       footer_company: 'Graceful International (HK) Limited', footer_brand: 'Marca: Yezhimeng',
       footer_products: 'Productos', footer_company_links: 'Empresa', footer_contact_us: 'Contacto',
+      footer_email: 'Correo:', footer_phone: 'Teléfono:', footer_address_label: 'Dirección:',
       footer_address: 'Weifang, Shandong, China', footer_rights: 'Todos los derechos reservados.',
       about_title: 'Sobre Graceful International', about_breadcrumb: 'Nosotros',
       about_heading: 'Su socio de confianza en fabricación de productos de higiene',

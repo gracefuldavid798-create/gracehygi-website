@@ -2026,6 +2026,12 @@ html[dir="rtl"] .nav-links { flex-direction: row-reverse; }
   line-height: 1.6;
 }
 
+.footer-label {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-right: 0.25rem;
+}
+
 .footer-bottom {
   border-top: 1px solid #333;
   padding-top: var(--space-xl);

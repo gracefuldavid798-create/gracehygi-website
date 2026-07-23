@@ -438,7 +438,7 @@ function handleImageUpload(id, input) {
   reader.onload = function(e) {
     // Preview
     const preview = document.getElementById('preview-' + id);
-    preview.innerHTML = `<img src="${e.target.result}" alt="preview">`;
+    preview.innerHTML = `<img loading="lazy" decoding="async"  src="${e.target.result}" alt="preview">`;
 
     // Store
     uploadedImages[id] = {

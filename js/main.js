@@ -34,38 +34,41 @@ function initNavigation() {
 /* --- Scroll Animations --- */
 function initScrollEffects() {
   const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('revealed');
         observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
 
-  /* Observe sections for fade-in */
-  document.querySelectorAll('.section, .section-sm, .trust-bar, .cta-banner').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  /* Observe elements with .reveal class for staggered fade-in */
+  document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
   });
 
-  /* Trigger initial visible elements */
-  setTimeout(() => {
-    document.querySelectorAll('.section, .section-sm, .trust-bar, .cta-banner').forEach(el => {
+  /* Also observe section-level elements for a base reveal */
+  document.querySelectorAll('.section, .section-sm, .trust-bar, .cta-banner').forEach(el => {
+    if (!el.classList.contains('reveal')) {
+      el.classList.add('reveal');
+      observer.observe(el);
+    }
+  });
+
+  /* Trigger on-load — reveal elements already in viewport */
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal:not(.revealed)').forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
+      if (rect.top < window.innerHeight + 100) {
+        el.classList.add('revealed');
       }
     });
-  }, 100);
+  });
 }
 
 /* --- Mobile Menu --- */

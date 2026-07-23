@@ -1,0 +1,31 @@
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Remove .html extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Clean URLs for product pages
+RewriteRule ^products/sanitary-pads$ products/sanitary-pads.html [L]
+RewriteRule ^products/adult-diapers$ products/adult-diapers.html [L]
+RewriteRule ^about$ about.html [L]
+RewriteRule ^factory$ factory.html [L]
+RewriteRule ^quality$ quality.html [L]
+RewriteRule ^contact$ contact.html [L]
+
+# Cache control for static assets
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|ico|woff2)$">
+  Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>
+
+# Compress text files
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json text/xml
+</IfModule>
+
+# Custom 404 page (optional)
+# ErrorDocument 404 /404.html

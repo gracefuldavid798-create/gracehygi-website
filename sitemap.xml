@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.gracehygi.com/</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/"/>
+  </url>
+  <!-- Products - Sanitary Pads -->
+  <url>
+    <loc>https://www.gracehygi.com/products/sanitary-pads</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/products/sanitary-pads"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/products/sanitary-pads"/>
+  </url>
+  <!-- Products - Adult Diapers -->
+  <url>
+    <loc>https://www.gracehygi.com/products/adult-diapers</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/products/adult-diapers"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/products/adult-diapers"/>
+  </url>
+  <!-- Knowledge Hub (GEO) -->
+  <url>
+    <loc>https://www.gracehygi.com/knowledge-hub</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/knowledge-hub"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/knowledge-hub"/>
+  </url>
+  <!-- Statistics (GEO) -->
+  <url>
+    <loc>https://www.gracehygi.com/stats</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/stats"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/stats"/>
+  </url>
+  <!-- About -->
+  <url>
+    <loc>https://www.gracehygi.com/about</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/about"/>
+  </url>
+  <!-- OEM -->
+  <url>
+    <loc>https://www.gracehygi.com/oem</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/oem"/>
+  </url>
+  <!-- Custom -->
+  <url>
+    <loc>https://www.gracehygi.com/custom</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/custom"/>
+  </url>
+  <!-- Quality -->
+  <url>
+    <loc>https://www.gracehygi.com/quality</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/quality"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/quality"/>
+  </url>
+  <!-- Contact -->
+  <url>
+    <loc>https://www.gracehygi.com/contact</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gracehygi.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.gracehygi.com/contact"/>
+  </url>
+  <!-- LLMs.txt (AI discovery) -->
+  <url>
+    <loc>https://www.gracehygi.com/llms.txt</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>

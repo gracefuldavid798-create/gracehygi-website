@@ -1,0 +1,9 @@
+*.zip
+.DS_Store
+Thumbs.db
+*.psd
+*.ai
+*.sketch
+.vscode/
+.idea/
+node_modules/

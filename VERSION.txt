@@ -1,0 +1,19 @@
+Graceful International Website Build
+=====================================
+Version: 2026-07-13-v5
+Build Time: 2026-07-13 17:38 GMT+8
+
+Updates in this build:
+- Navigation: OEM-Sanitary (custom.html) + OEM-Diapers (oem.html)
+- Images: All images compressed from 4.3MB to 1.86MB (56% reduction)
+- i18n.js: All 10 languages updated with correct nav labels
+- HTML fallback: All pages have OEM-Sanitary / OEM-Diapers fallback text
+- CRITICAL FIX: Removed data-i18n attributes from all nav links (10 HTML files).
+  Nav labels are now hardcoded in HTML and will display correctly even if
+  i18n.js fails to load or is cached on the server.
+- CRITICAL FIX 2: Fixed oem.html and custom.html nav links that had class="active"
+  and were missed in the first pass.
+- CRITICAL FIX 3: Recreated zip with forward slash paths (images/custom-*.png)
+  to ensure compatibility with Linux server unzip.
+
+Deploy note: Replace ALL files. Do not skip js/i18n.js or any HTML files.

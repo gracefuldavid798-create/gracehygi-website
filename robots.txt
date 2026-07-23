@@ -1,0 +1,63 @@
+# Graceful International (HK) Limited — robots.txt
+# Last updated: 2026-07-09
+
+# === All standard crawlers ===
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://www.gracehygi.com/sitemap.xml
+
+Crawl-delay: 5
+
+# === Block unnecessary paths ===
+Disallow: /css/
+Disallow: /js/
+Disallow: /images/placeholders/
+
+# === AI / LLM Crawler Policies ===
+# OpenAI (ChatGPT, GPTBot)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+
+# Anthropic (Claude)
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin/
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+
+# Google Extended (AI overviews)
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+
+# Common Crawl (used by many AI training datasets)
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+Disallow: /admin/
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+Disallow: /admin/
+
+# === AI Dataset Crawlers (allow for GEO visibility) ===
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /

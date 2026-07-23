@@ -1,0 +1,1320 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Graceful International 鈥?缃戠珯绠＄悊鍚庡彴</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root {
+  --bg: #f5f6fa;
+  --card: #fff;
+  --border: #e2e5ed;
+  --text: #2c3e50;
+  --text2: #60708a;
+  --primary: #d4687c;
+  --primary2: #f8e5eb;
+  --green: #27ae60;
+  --blue: #5b9bd5;
+  --orange: #e67e22;
+  --radius: 10px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.06);
+  --font: -apple-system, "Microsoft YaHei", sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; }
+.admin-header { background:var(--card); border-bottom:1px solid var(--border); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:58px; position:sticky; top:0; z-index:100; }
+.admin-header h1 { font-size:1.1rem; font-weight:600; display:flex; align-items:center; gap:0.5rem; }
+.admin-header h1 span { font-weight:400; color:var(--text2); font-size:0.85rem; }
+.header-actions { display:flex; gap:0.75rem; align-items:center; }
+.btn { padding:0.5rem 1.25rem; border-radius:6px; border:none; cursor:pointer; font-size:0.875rem; font-weight:500; transition:all 0.2s; display:inline-flex; align-items:center; gap:0.4rem; font-family:var(--font); }
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-primary:hover { background:#c05568; }
+.btn-outline { background:var(--card); border:1px solid var(--border); color:var(--text); }
+.btn-outline:hover { background:#f0f1f4; }
+.btn-green { background:var(--green); color:#fff; }
+.btn-green:hover { background:#219a52; }
+.btn-green:disabled { opacity:0.5; cursor:not-allowed; }
+.admin-layout { display:flex; min-height:calc(100vh - 58px); }
+.sidebar { width:220px; background:var(--card); border-right:1px solid var(--border); padding:1.25rem 0; flex-shrink:0; }
+.sidebar-item { display:flex; align-items:center; gap:0.6rem; padding:0.7rem 1.5rem; cursor:pointer; font-size:0.9rem; color:var(--text2); transition:all 0.15s; border-left:3px solid transparent; }
+.sidebar-item:hover { background:#f8f9fb; color:var(--text); }
+.sidebar-item.active { background:var(--primary2); color:var(--primary); border-left-color:var(--primary); font-weight:600; }
+.sidebar-icon { font-size:1.1rem; width:20px; text-align:center; }
+.content { flex:1; padding:1.5rem 2rem; overflow-y:auto; max-height:calc(100vh - 58px); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:1.5rem; margin-bottom:1.25rem; }
+.card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem; }
+.card-title { font-size:1rem; font-weight:600; }
+.img-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:1.25rem; }
+.img-card { border:2px dashed var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color 0.2s; cursor:pointer; position:relative; }
+.img-card:hover { border-color:var(--primary); }
+.img-card.has-image { border-style:solid; border-color:var(--border); }
+.img-preview { width:100%; height:180px; background:#f9fafb; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:0.85rem; overflow:hidden; }
+.img-preview img { width:100%; height:100%; object-fit:cover; }
+.img-info { padding:0.75rem; font-size:0.8rem; color:var(--text2); display:flex; justify-content:space-between; align-items:center; }
+.img-label { font-weight:500; color:var(--text); font-size:0.85rem; }
+.img-actions { display:flex; gap:0.35rem; }
+.img-actions button { padding:0.25rem 0.6rem; border-radius:4px; border:1px solid var(--border); background:var(--card); cursor:pointer; font-size:0.75rem; color:var(--text2); font-family:var(--font); }
+.img-actions button:hover { background:#f0f1f4; }
+.img-actions .btn-del { color:#e74c3c; border-color:#fce4e4; }
+.img-actions .btn-del:hover { background:#fef0f0; }
+.img-status { font-size:0.7rem; padding:0.15rem 0.45rem; border-radius:3px; }
+.img-status.new { background:#e8f5e9; color:var(--green); }
+.img-status.orig { background:#f5f5f5; color:#999; }
+.form-group { margin-bottom:1rem; }
+.form-label { display:block; font-size:0.8rem; font-weight:500; color:var(--text2); margin-bottom:0.3rem; }
+.form-input, .form-textarea { width:100%; padding:0.55rem 0.75rem; border:1px solid var(--border); border-radius:6px; font-size:0.875rem; font-family:var(--font); transition:border-color 0.2s; }
+.form-input:focus, .form-textarea:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(212,104,124,0.1); }
+.form-textarea { min-height:70px; resize:vertical; }
+.lang-tabs { display:flex; gap:0.5rem; margin-bottom:1rem; }
+.lang-tab { padding:0.3rem 0.9rem; border-radius:4px; border:1px solid var(--border); background:var(--card); cursor:pointer; font-size:0.8rem; font-family:var(--font); }
+.lang-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.text-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+.text-pair { background:#f9fafb; border-radius:6px; padding:0.85rem; }
+.text-pair .lang-label { font-size:0.7rem; color:var(--text2); margin-bottom:0.25rem; }
+.specs-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:0.75rem; }
+.progress-wrap { margin:1.5rem 0; }
+.progress-bar { height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; background:var(--green); border-radius:3px; transition:width 0.3s; width:0; }
+.progress-text { font-size:0.8rem; color:var(--text2); margin-top:0.4rem; }
+.log-area { background:#1e1e1e; color:#d4d4d4; border-radius:var(--radius); padding:1rem; font-size:0.8rem; font-family:"Cascadia Code","Consolas",monospace; max-height:300px; overflow-y:auto; line-height:1.6; margin-top:1rem; }
+.log-line { }
+.log-line.ok { color:#6a9955; }
+.log-line.warn { color:#ce9178; }
+.log-line.info { color:#569cd6; }
+.file-list { font-size:0.8rem; line-height:2; columns:2; color:var(--text2); }
+.toast { position:fixed; top:1.5rem; right:1.5rem; padding:0.75rem 1.25rem; border-radius:8px; color:#fff; font-size:0.875rem; z-index:9999; animation:slideIn 0.3s ease; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+.toast.success { background:var(--green); }
+.toast.error { background:#e74c3c; }
+@keyframes slideIn { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+.empty-state { text-align:center; padding:3rem; color:var(--text2); }
+.empty-state svg { opacity:0.3; margin-bottom:1rem; }
+@media (max-width:768px) { .admin-layout { flex-direction:column; } .sidebar { width:100%; display:flex; overflow-x:auto; padding:0; border-right:none; border-bottom:1px solid var(--border); } .sidebar-item { white-space:nowrap; border-left:none; border-bottom:2px solid transparent; } .sidebar-item.active { border-bottom-color:var(--primary); border-left:none; } .text-grid { grid-template-columns:1fr; } .specs-grid { grid-template-columns:1fr; } .img-grid { grid-template-columns:1fr; } }
+input[type="file"] { display:none; }
+.login-overlay { position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999; }
+.login-box { background:var(--card); border-radius:12px; padding:2.5rem; width:400px; max-width:90vw; box-shadow:0 8px 32px rgba(0,0,0,0.1); text-align:center; }
+.login-box h2 { font-size:1.3rem; margin-bottom:0.5rem; }
+.login-box p { color:var(--text2); font-size:0.85rem; margin-bottom:1.5rem; }
+.login-box .form-input { text-align:center; font-size:1.1rem; padding:0.75rem; margin-bottom:1rem; }
+.login-error { color:#e74c3c; font-size:0.8rem; min-height:1.2rem; }
+.logout-btn { font-size:0.8rem; color:var(--text2); cursor:pointer; text-decoration:underline; }
+</style>
+</head>
+<body>
+<!-- 鐧诲綍閬僵 -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>馃攼 绠＄悊鍚庡彴鐧诲綍</h2>
+    <p>璇疯緭鍏ョ鐞嗗瘑鐮佷互璁块棶缃戠珯鍚庡彴</p>
+    <input type="password" class="form-input" id="loginPassword" placeholder="璇疯緭鍏ュ瘑鐮? onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-error" id="loginError"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:0.75rem;" onclick="doLogin()">鐧?褰?/button>
+  </div>
+</div>
+
+<!-- 涓诲唴瀹癸紙鐧诲綍鍚庢樉绀猴級 -->
+<div id="adminMain" style="display:none;">
+<div class="admin-header">
+  <h1>馃寪 Graceful International <span>缃戠珯绠＄悊鍚庡彴</span></h1>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="previewSite()" title="鍦ㄦ柊绐楀彛棰勮缃戠珯">馃憗 棰勮缃戠珯</button>
+    <button class="btn btn-outline logout-btn" onclick="doLogout()" title="閫€鍑虹櫥褰?>馃毆 閫€鍑?/button>
+    <button class="btn btn-green" id="btnGenerate" onclick="generateZip()">馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇</button>
+  </div>
+</div>
+
+<div class="admin-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-item active" data-tab="tab-images">馃柤 鍥剧墖绠＄悊</div>
+    <div class="sidebar-item" data-tab="tab-products">馃搵 浜у搧鍐呭</div>
+    <div class="sidebar-item" data-tab="tab-products-data">馃敡 浜у搧绠＄悊</div>
+    <div class="sidebar-item" data-tab="tab-company">馃彚 鍏徃淇℃伅</div>
+    <div class="sidebar-item" data-tab="tab-seo">馃攳 SEO璁剧疆</div>
+    <div class="sidebar-item" data-tab="tab-orders">馃搵 OEM璁㈠崟</div>
+    <div class="sidebar-item" data-tab="tab-custom-orders">馃洜 瀹氬埗璁㈠崟</div>
+    <div class="sidebar-item" data-tab="tab-export">馃摝 瀵煎嚭缃戠珯</div>
+  </nav>
+
+  <main class="content">
+
+    <!-- ====== TAB: 鍥剧墖绠＄悊 ====== -->
+    <div class="tab-content active" id="tab-images">
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃彔 棣栭〉 / 鍏充簬椤靛ぇ鍥?(1920脳800)</span></div>
+        <div class="img-grid" id="imgHeroGrid"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃彮 宸ュ巶鍥剧墖 (1200脳800)</span></div>
+        <div class="img-grid" id="imgFactoryGrid"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃摝 浜у搧鍥剧墖 (800脳800)</span></div>
+        <div class="img-grid" id="imgProductGrid"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃摐 璇佷功鍥剧墖 (600脳800)</span></div>
+        <div class="img-grid" id="imgCertGrid"></div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: 浜у搧鍐呭 ====== -->
+    <div class="tab-content" id="tab-products">
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃寪 璇█鍒囨崲</span></div>
+        <div class="lang-tabs">
+          <button class="lang-tab active" data-lang="en" onclick="switchProductLang('en')">English</button>
+          <button class="lang-tab" data-lang="zh" onclick="switchProductLang('zh')">涓枃</button>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text2);">褰撳墠缂栬緫璇█锛?strong id="currentLangLabel">English</strong></p>
+      </div>
+
+      <!-- Product 1: Cotton Pads -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">浜у搧涓€锛氫翰鑲ゆ鍗敓宸?/ Cotton-Soft Sanitary Pads</span></div>
+        <div class="text-grid">
+          <div class="text-pair" data-key-en="product_cotton_full" data-key-zh="product_cotton_full">
+            <div class="lang-label"><span class="lang-flag lang-en"></span> English 鈥?浜у搧鍚嶇О</div>
+            <input class="form-input lang-en" value="Cotton-Soft Sanitary Pads">
+          </div>
+          <div class="text-pair" data-key-en="product_cotton_full">
+            <div class="lang-label"><span class="lang-flag lang-zh"></span> 涓枃 鈥?浜у搧鍚嶇О</div>
+            <input class="form-input lang-zh" value="浜茶偆妫夊崼鐢熷肪">
+          </div>
+        </div>
+        <div class="text-grid">
+          <div class="text-pair">
+            <div class="lang-label"><span class="lang-flag lang-en"></span> English 鈥?浜у搧鎻忚堪</div>
+            <textarea class="form-textarea lang-en" data-key-en="product_cotton_desc">Ultra-thin 0.1cm design with premium cotton surface for ultimate comfort. Breathable back sheet with rapid absorption core. Available in multiple sizes and absorbency levels.</textarea>
+          </div>
+          <div class="text-pair">
+            <div class="lang-label"><span class="lang-flag lang-zh"></span> 涓枃 鈥?浜у搧鎻忚堪</div>
+            <textarea class="form-textarea lang-zh" data-key-zh="product_cotton_desc">瓒呰杽0.1cm璁捐锛屼紭璐ㄦ鏌旇〃灞傚甫鏉ユ瀬鑷磋垝閫備綋楠屻€傞€忔皵搴曡啘閰嶅悎鐬惛鑺綋锛屽绉嶅昂瀵稿拰鍚告敹鍔涘彲閫夈€?/textarea>
+          </div>
+        </div>
+        <div class="specs-grid">
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?闀垮害</div><input class="form-input lang-en" data-key-en="spec_length_val" value="180mm / 240mm / 280mm / 320mm / 350mm"><input class="form-input lang-zh" data-key-zh="spec_length_val" value="180mm / 240mm / 280mm / 320mm / 350mm" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?鍚告敹鍔?/div><input class="form-input lang-en" data-key-en="spec_absorption_val" value="Light / Regular / Super / Overnight"><input class="form-input lang-zh" data-key-zh="spec_absorption_val" value="鏃ョ敤 / 閲忓 / 瓒呴噺 / 澶滅敤" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?鍖呰</div><input class="form-input lang-en" data-key-en="spec_packaging_val" value="Custom OEM packaging"><input class="form-input lang-zh" data-key-zh="spec_packaging_val" value="OEM瀹氬埗鍖呰" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?MOQ</div><input class="form-input lang-en" data-key-en="spec_moq_val" value="50,000 pcs per SKU"><input class="form-input lang-zh" data-key-zh="spec_moq_val" value="姣廠KU 50,000鐗? style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?浜ゆ湡</div><input class="form-input lang-en" data-key-en="spec_lead_val" value="25-35 days"><input class="form-input lang-zh" data-key-zh="spec_lead_val" value="25-35澶? style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?璁よ瘉</div><input class="form-input lang-en" data-key-en="spec_cert_val" value="ISO 9001, ISO 13485, CE"><input class="form-input lang-zh" data-key-zh="spec_cert_val" value="ISO 9001, ISO 13485, CE" style="margin-top:0.3rem;font-size:0.8rem"></div>
+        </div>
+      </div>
+
+      <!-- Product 2: Probiotic Pads -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">浜у搧浜岋細鐩婄敓鑿屽崼鐢熷肪 / Probiotic Sanitary Pads</span></div>
+        <div class="text-grid">
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English 鈥?浜у搧鍚嶇О</div><input class="form-input lang-en" data-key-en="product_probiotic_full" value="Probiotic Sanitary Pads"></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 涓枃 鈥?浜у搧鍚嶇О</div><input class="form-input lang-zh" data-key-zh="product_probiotic_full" value="鐩婄敓鑿屽崼鐢熷肪"></div>
+        </div>
+        <div class="text-grid">
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English 鈥?浜у搧鎻忚堪</div><textarea class="form-textarea lang-en" data-key-en="product_probiotic_desc">Advanced formulation with lactobacillus probiotics to maintain natural pH balance. 99.9% antibacterial surface layer. Dermatologically tested for sensitive skin.</textarea></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 涓枃 鈥?浜у搧鎻忚堪</div><textarea class="form-textarea lang-zh" data-key-zh="product_probiotic_desc">鍒涙柊涔抽吀鑿岄厤鏂癸紝缁存寔绉佸澶╃劧寮遍吀鐜銆?9.9%鎶戣弻琛ㄥ眰锛岀粡鐨偆绉戞祴璇曪紝閫傚悎鏁忔劅鑲岃偆銆?/textarea></div>
+        </div>
+      </div>
+
+      <!-- Product 3: Adult Diapers -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">浜у搧涓夛細閫熷惛鍨嬫垚浜虹焊灏胯￥ / Super-Absorbent Adult Diapers</span></div>
+        <div class="text-grid">
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English 鈥?浜у搧鍚嶇О</div><input class="form-input lang-en" data-key-en="product_adult_full" value="Super-Absorbent Adult Diapers"></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 涓枃 鈥?浜у搧鍚嶇О</div><input class="form-input lang-zh" data-key-zh="product_adult_full" value="閫熷惛鍨嬫垚浜虹焊灏胯￥"></div>
+        </div>
+        <div class="text-grid">
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English 鈥?浜у搧鎻忚堪</div><textarea class="form-textarea lang-en" data-key-en="product_adult_desc">Advanced super-absorbent polymer core for rapid 3-second absorption. 360掳 leak guard with odor control technology. Soft, breathable materials for extended wear comfort.</textarea></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 涓枃 鈥?浜у搧鎻忚堪</div><textarea class="form-textarea lang-zh" data-key-zh="product_adult_desc">鍏堣繘楂樺惛鏀跺垎瀛愯姱浣擄紝瀹炵幇3绉掔灛鍚搞€?60掳闃叉紡淇濇姢閰嶅悎闄よ嚟鎶戝懗鎶€鏈€傛煍杞€忔皵鏉愭枡锛岄暱鏃堕棿绌挎埓渚濈劧鑸掗€傘€?/textarea></div>
+        </div>
+        <div class="specs-grid">
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?灏哄</div><input class="form-input lang-en" data-key-en="spec_sizes_val" value="S / M / L / XL"><input class="form-input lang-zh" data-key-zh="spec_sizes_val" value="S / M / L / XL" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?鑵板洿</div><input class="form-input lang-en" data-key-en="spec_waist_val" value="60cm - 140cm"><input class="form-input lang-zh" data-key-zh="spec_waist_val" value="60cm - 140cm" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">瑙勬牸 鈥?MOQ</div><input class="form-input lang-en" data-key-en="spec_moq_adult_val" value="30,000 pcs per SKU"><input class="form-input lang-zh" data-key-zh="spec_moq_adult_val" value="姣廠KU 30,000鐗? style="margin-top:0.3rem;font-size:0.8rem"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: 浜у搧绠＄悊 ====== -->
+    <div class="tab-content" id="tab-products-data">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">馃敡 浜у搧鏁版嵁绠＄悊</span>
+          <button class="btn btn-outline" onclick="loadProductData()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">馃攧 浠庣綉绔欏姞杞?/button>
+        </div>
+        <p style="color:var(--text2);margin-bottom:1rem;font-size:0.85rem;">
+          绠＄悊 product.html 涓婂睍绀虹殑浜у搧鍝佺被鍜屼骇鍝佷俊鎭€備慨鏀瑰悗鐐瑰嚮涓婃柟"鐢熸垚缃戠珯鍖?鍗冲彲瀵煎嚭銆?        </p>
+        <div id="productDataContainer">
+          <div class="empty-state">鐐瑰嚮"浠庣綉绔欏姞杞?璇诲彇褰撳墠浜у搧鏁版嵁</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: 鍏徃淇℃伅 ====== -->
+    <div class="tab-content" id="tab-company">
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃寪 璇█鍒囨崲</span></div>
+        <div class="lang-tabs">
+          <button class="lang-tab active" data-lang="en" onclick="switchCompanyLang('en')">English</button>
+          <button class="lang-tab" data-lang="zh" onclick="switchCompanyLang('zh')">涓枃</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃摓 鑱旂郴鏂瑰紡</span></div>
+        <div class="specs-grid">
+          <div class="form-group"><div class="form-label">閭</div><input class="form-input" id="companyEmail" value="fiona@gracehygi.com"></div>
+          <div class="form-group"><div class="form-label">WhatsApp</div><input class="form-input" id="companyWhatsapp" value="+86 19553316597"></div>
+          <div class="form-group"><div class="form-label">宸ュ巶鍦板潃 (EN)</div><input class="form-input" id="companyAddressEn" value="Weifang, Shandong Province, China"></div>
+          <div class="form-group"><div class="form-label">宸ュ巶鍦板潃 (ZH)</div><input class="form-input" id="companyAddressZh" value="涓浗灞变笢鐪佹綅鍧婂競"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃摑 鍏充簬鎴戜滑 鈥?English</span></div>
+        <div class="form-group"><div class="form-label">娈佃惤涓€</div><textarea class="form-textarea lang-en" data-key-en="about_p1" style="min-height:80px">Founded in 2018 and headquartered in Hong Kong, Graceful International (HK) Limited is a professional manufacturer of feminine hygiene and adult incontinence products under the brand "Yezhimeng". Our state-of-the-art production facility is located in Weifang, Shandong Province, spanning 400 acres with 14 fully automated production lines.</textarea></div>
+        <div class="form-group"><div class="form-label">娈佃惤浜?/div><textarea class="form-textarea lang-en" data-key-en="about_p2" style="min-height:80px">With a dedicated team of 300 professionals 鈥?including a 30-person quality control department 鈥?we are committed to delivering products that meet the highest international standards. Our dual ISO 9001 and ISO 13485 certifications reflect our unwavering commitment to quality and safety.</textarea></div>
+        <div class="form-group"><div class="form-label">娈佃惤涓?/div><textarea class="form-textarea lang-en" data-key-en="about_p3" style="min-height:80px">We serve as a trusted OEM/ODM partner for brands, wholesalers, supermarket chains, and elderly care institutions across Europe, America, and Korea. From product development to packaging design, we provide end-to-end manufacturing solutions tailored to your market needs.</textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃摑 鍏充簬鎴戜滑 鈥?涓枃</span></div>
+        <div class="form-group"><div class="form-label">娈佃惤涓€</div><textarea class="form-textarea lang-zh" data-key-zh="about_p1" style="min-height:80px">娴峰渤闆嗗洟锛堥娓級鑲′唤鏈夐檺鍏徃鎴愮珛浜?018骞达紝鎬婚儴浣嶄簬棣欐腐锛屾槸涓撲笟浠庝簨濂虫€у崼鐢熺敤鍝佸拰鎴愪汉澶辩鎶ょ悊鐢ㄥ搧鍒堕€犵殑浼佷笟锛屾棗涓嬫嫢鏈夊搧鐗?Yezhimeng"銆傛垜浠殑鐜颁唬鍖栫敓浜у熀鍦板潗钀戒簬灞变笢鐪佹綅鍧婂競锛屽崰鍦?00浜╋紝閰嶅14鏉″叏鑷姩鐢熶骇绾裤€?/textarea></div>
+        <div class="form-group"><div class="form-label">娈佃惤浜?/div><textarea class="form-textarea lang-zh" data-key-zh="about_p2" style="min-height:80px">鎴戜滑鎷ユ湁300鍚嶄笓涓氬憳宸モ€斺€斿叾涓寘鎷?0浜虹殑璐ㄩ噺鎺у埗鍥㈤槦鈥斺€旇嚧鍔涗簬浜や粯绗﹀悎鏈€楂樺浗闄呮爣鍑嗙殑浜у搧銆侷SO 9001鍜孖SO 13485鍙岃璇佷綋鐜颁簡鎴戜滑瀵瑰搧璐ㄥ拰瀹夊叏鐨勫潥瀹氭壙璇恒€?/textarea></div>
+        <div class="form-group"><div class="form-label">娈佃惤涓?/div><textarea class="form-textarea lang-zh" data-key-zh="about_p3" style="min-height:80px">鎴戜滑涓烘娲层€佺編娲插拰闊╁浗鐨勫搧鐗屽晢銆佹壒鍙戝晢銆佽繛閿佽秴甯傚拰鍏昏€佹満鏋勬彁渚涘€煎緱淇¤禆鐨凮EM/ODM鏈嶅姟銆備粠浜у搧寮€鍙戝埌鍖呰璁捐锛屾垜浠负鎮ㄧ殑甯傚満闇€姹傛彁渚涚鍒扮鐨勫埗閫犺В鍐虫柟妗堛€?/textarea></div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: SEO ====== -->
+    <div class="tab-content" id="tab-seo">
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃攳 鍚勯〉闈?SEO 鏍囬涓庢弿杩?/span></div>
+        <p style="font-size:0.8rem;color:var(--text2);margin-bottom:1rem;">淇敼鍚庣綉绔欎細鑷姩鏇存柊 &lt;title&gt; 鍜?meta description銆?/p>
+        <div id="seoFields"></div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: OEM璁㈠崟 ====== -->
+    <div class="tab-content" id="tab-orders">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">馃搵 OEM 瀹氬埗璁㈠崟鍒楄〃</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span style="font-size:0.8rem;color:var(--text2);" id="orderSource"></span>
+            <button class="btn btn-outline" onclick="refreshOrders()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">馃攧 鍒锋柊</button>
+          </div>
+        </div>
+        <div id="ordersContainer">
+          <div class="empty-state">鍔犺浇涓?..</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: 瀹氬埗璁㈠崟 ====== -->
+    <div class="tab-content" id="tab-custom-orders">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">馃洜 Custom 瀹氬埗璁㈠崟鍒楄〃</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span style="font-size:0.8rem;color:var(--text2);" id="customOrderSource"></span>
+            <button class="btn btn-outline" onclick="refreshCustomOrders()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">馃攧 鍒锋柊</button>
+          </div>
+        </div>
+        <div id="customOrdersContainer">
+          <div class="empty-state">鐐瑰嚮"鍒锋柊"鍔犺浇璁㈠崟...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== TAB: 瀵煎嚭缃戠珯 ====== -->
+    <div class="tab-content" id="tab-export">
+      <div class="card">
+        <div class="card-header"><span class="card-title">馃摝 鐢熸垚缃戠珯鍖?/span></div>
+        <p style="color:var(--text2);margin-bottom:1.25rem;font-size:0.9rem;line-height:1.6;">
+          鐐瑰嚮涓嬫柟鎸夐挳锛岀郴缁熶細璇诲彇褰撳墠绾夸笂鎵€鏈夋枃浠躲€佸簲鐢ㄤ綘淇敼鐨勫浘鐗囧拰鏂囧瓧锛?br>
+          鎵撳寘鎴?<code>gracehygi-website.zip</code> 鑷姩涓嬭浇鍒颁綘鐨勭數鑴戙€?        </p>
+        <p style="color:var(--text2);margin-bottom:1.25rem;font-size:0.85rem;">
+          <strong>涓嬭浇鍚庢搷浣滐細</strong>鐧诲綍 Cloudflare Pages 鈫?閫夋嫨浣犵殑椤圭洰 鈫?涓婁紶鏂扮殑 zip 鏂囦欢 鈫?绛夊緟閮ㄧ讲瀹屾垚銆?        </p>
+        <button class="btn btn-green" id="btnGenerate2" onclick="generateZip()" style="font-size:1rem;padding:0.75rem 2rem;">馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇</button>
+        <div class="progress-wrap" id="progressWrap" style="display:none;">
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-text" id="progressText">鍑嗗涓?..</div>
+        </div>
+        <div class="log-area" id="logArea" style="display:none;"></div>
+        <div class="file-list" id="fileList" style="margin-top:1rem;"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ============================================================
+// GLOBAL STATE
+// ============================================================
+const IMAGE_SLOTS = [
+  // [id, fileName, label, width, height, category, responsive]
+  ['hero-factory', 'hero-factory.jpg', '棣栭〉澶у浘 (Hero)', 1920, 800, 'hero', true],
+  ['factory-line', 'factory-line.jpg', '鐢熶骇绾?, 1200, 800, 'factory', false],
+  ['factory-raw-materials', 'factory-raw-materials.jpg', '鍘熸潗鏂?, 1200, 800, 'factory', false],
+  ['factory-lab', 'factory-lab.jpg', '瀹為獙瀹?, 1200, 800, 'factory', false],
+  ['factory-warehouse', 'factory-warehouse.jpg', '浠撳偍', 1200, 800, 'factory', false],
+  ['product-organic-cotton', 'product-organic-cotton.jpg', '鏈夋満妫夊崼鐢熷肪', 800, 800, 'product', false],
+  ['product-pure-cotton', 'product-pure-cotton.jpg', '绾鍗敓宸?, 800, 800, 'product', false],
+  ['product-bamboo-fiber', 'product-bamboo-fiber.jpg', '绔圭氦缁村崼鐢熷肪', 800, 800, 'product', false],
+  ['product-adult-diaper-package', 'product-adult-diaper-package.jpg', '鎴愪汉绾稿翱瑁?, 800, 800, 'product', false],
+  ['cert-fda', 'cert-fda.jpg', 'FDA 璇佷功', 600, 800, 'cert', false],
+  ['cert-ecm', 'cert-ecm.jpg', 'ECM CE 璇佷功', 600, 800, 'cert', false],
+  ['cert-iso9001', 'cert-iso9001.jpg', 'ISO 9001 璇佷功', 600, 800, 'cert', false],
+  ['cert-compostable', 'cert-compostable.jpg', '鍙爢鑲ヨ瘉涔?, 600, 800, 'cert', false],
+  ['cert-eu', 'cert-eu.jpg', 'EU 鍚堟牸璇佷功', 600, 800, 'cert', false],
+];
+
+// Stores uploaded image data: { id: { dataUrl, blob, isNew } }
+const uploadedImages = {};
+let currentProductLang = 'en';
+let currentCompanyLang = 'en';
+
+// File list for zip
+const SITE_FILES = [
+  'index.html', 'oem.html', 'custom.html', 'quality.html', 'contact.html',
+  'knowledge-hub.html', 'stats.html', 'product.html',
+  'products/sanitary-pads.html', 'products/adult-diapers.html',
+  'css/style.css', 'js/main.js', 'js/i18n.js', 'js/products-data.js',
+  'robots.txt', 'sitemap.xml', '.htaccess', 'llms.txt', 'llms-full.txt'
+];
+
+// ============================================================
+// SIDEBAR NAVIGATION
+// ============================================================
+document.getElementById('sidebar').addEventListener('click', function(e) {
+  const item = e.target.closest('.sidebar-item');
+  if (!item) return;
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  item.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(item.dataset.tab).classList.add('active');
+});
+
+// ============================================================
+// IMAGE CARDS
+// ============================================================
+function buildImageCards() {
+  const categories = { hero: 'imgHeroGrid', factory: 'imgFactoryGrid', product: 'imgProductGrid', cert: 'imgCertGrid' };
+  IMAGE_SLOTS.forEach(slot => {
+    const grid = document.getElementById(categories[slot[5]]);
+    if (!grid) return;
+    const card = document.createElement('div');
+    card.className = 'img-card';
+    card.id = 'card-' + slot[0];
+    card.innerHTML = `
+      <div class="img-preview" id="preview-${slot[0]}">
+        <div>馃摲 ${slot[2]}<br><small>${slot[3]}脳${slot[4]}</small></div>
+      </div>
+      <div class="img-info">
+        <div>
+          <div class="img-label">${slot[2]}</div>
+          <div style="font-size:0.7rem;color:#999;">${slot[1]} 路 ${slot[3]}脳${slot[4]}</div>
+        </div>
+        <div class="img-actions">
+          <button onclick="uploadImage('${slot[0]}')">馃摛 涓婁紶</button>
+          <button class="btn-del" onclick="resetImage('${slot[0]}')" style="display:none" id="reset-${slot[0]}">鉁?閲嶇疆</button>
+        </div>
+      </div>
+      <input type="file" id="file-${slot[0]}" accept="image/*" onchange="handleImageUpload('${slot[0]}', this)" style="display:none">
+      <span class="img-status orig" style="position:absolute;top:8px;right:8px;" id="status-${slot[0]}">鍘熷</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function uploadImage(id) {
+  document.getElementById('file-' + id).click();
+}
+
+function handleImageUpload(id, input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    // Preview
+    const preview = document.getElementById('preview-' + id);
+    preview.innerHTML = `<img src="${e.target.result}" alt="preview">`;
+
+    // Store
+    uploadedImages[id] = {
+      dataUrl: e.target.result,
+      blob: file,
+      isNew: true
+    };
+
+    // Update UI
+    document.getElementById('card-' + id).classList.add('has-image');
+    document.getElementById('reset-' + id).style.display = '';
+    const status = document.getElementById('status-' + id);
+    status.textContent = '宸蹭慨鏀?;
+    status.className = 'img-status new';
+
+    input.value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetImage(id) {
+  delete uploadedImages[id];
+  const preview = document.getElementById('preview-' + id);
+  const slot = IMAGE_SLOTS.find(s => s[0] === id);
+  if (slot) {
+    preview.innerHTML = `<div>馃摲 ${slot[2]}<br><small>${slot[3]}脳${slot[4]}</small></div>`;
+  }
+  document.getElementById('card-' + id).classList.remove('has-image');
+  document.getElementById('reset-' + id).style.display = 'none';
+  const status = document.getElementById('status-' + id);
+  status.textContent = '鍘熷';
+  status.className = 'img-status orig';
+}
+
+// ============================================================
+// DRAG AND DROP SUPPORT FOR IMAGE CARDS
+// ============================================================
+document.addEventListener('click', function(e) {
+  const card = e.target.closest('.img-card');
+  if (!card) return;
+  const id = card.id.replace('card-', '');
+  if (e.target.closest('button') || e.target.closest('input')) return;
+  uploadImage(id);
+});
+
+// ============================================================
+// LANGUAGE SWITCHING
+// ============================================================
+function switchProductLang(lang) {
+  currentProductLang = lang;
+  document.querySelectorAll('#tab-products .lang-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.lang === lang);
+  });
+  document.getElementById('currentLangLabel').textContent = lang === 'en' ? 'English' : '涓枃';
+}
+
+function switchCompanyLang(lang) {
+  currentCompanyLang = lang;
+  document.querySelectorAll('#tab-company .lang-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.lang === lang);
+  });
+}
+
+// ============================================================
+// PRODUCT DATA MANAGEMENT
+// ============================================================
+let productDataEdited = null;
+
+async function loadProductData() {
+  const container = document.getElementById('productDataContainer');
+  container.innerHTML = '<div class="empty-state">鍔犺浇涓?..</div>';
+
+  try {
+    const resp = await fetch('/js/products-data.js');
+    if (!resp.ok) {
+      productDataEdited = getDefaultProductData();
+      renderProductDataEditor(JSON.parse(productDataEdited));
+      showToast('鈿?鏈壘鍒颁骇鍝佹暟鎹枃浠讹紝宸插姞杞介粯璁ゆ暟鎹?, 'error');
+      return;
+    }
+    let text = await resp.text();
+    text = text.replace(/^const\s+PRODUCT_DATA\s*=\s*/, '').replace(/;\s*$/, '');
+    text = text.replace(/\/\*\*[\s\S]*?\*\//, '').trim();
+    productDataEdited = text;
+    const data = JSON.parse(text);
+    renderProductDataEditor(data);
+    showToast('鉁?浜у搧鏁版嵁宸插姞杞?, 'success');
+  } catch (err) {
+    container.innerHTML = '<div class="empty-state">鉂?鍔犺浇澶辫触: ' + err.message + '<br><button class="btn btn-outline" onclick="loadProductData()" style="margin-top:1rem;">閲嶈瘯</button></div>';
+  }
+}
+
+function getDefaultProductData() {
+  return JSON.stringify({
+    categories: [
+      { id: "sanitary-pads", name: "Sanitary Pads", icon: "馃尭", color: "rose",
+        products: [
+          { id: "organic-cotton", name: "Organic Cotton Sanitary Pads", image: "product-organic-cotton", moq: "50,000pcs/size", certification: "ISO, CE", size: "150/190/240/285/305/350/410mm" },
+          { id: "pure-cotton", name: "Pure Cotton Sanitary Pads", image: "product-pure-cotton", moq: "50,000pcs/size", certification: "ISO, CE", size: "150/190/240/285/305/350/410mm" },
+          { id: "bamboo-fiber", name: "Bamboo Fiber Sanitary Pads", image: "product-bamboo-fiber", moq: "50,000pcs/size", certification: "ISO, CE", size: "150/190/240/285/305/350/410mm" }
+        ]
+      },
+      { id: "adult-diapers", name: "Adult Diapers", icon: "馃挋", color: "blue",
+        products: [
+          { id: "super-absorbent", name: "Super-Absorbent Adult Diapers", image: "product-adult-diaper-package", moq: "30,000pcs/size", certification: "ISO, CE", size: "S/M/L/XL" }
+        ]
+      }
+    ]
+  }, null, 2);
+}
+
+function renderProductDataEditor(data) {
+  const container = document.getElementById('productDataContainer');
+  let html = '';
+
+  data.categories.forEach(function(cat, ci) {
+    html += '<div class="card" style="margin-bottom:1rem;">';
+    html += '<div class="card-header">';
+    html += '<span class="card-title">' + (cat.icon || '馃摝') + ' 鍝佺被 #' + (ci+1) + ' 鈥?' + esc(cat.name) + '</span>';
+    html += '<div>';
+    html += '<button class="btn btn-outline" onclick="addProduct(' + ci + ')" style="font-size:0.75rem;padding:0.3rem 0.7rem;margin-right:0.4rem;">+ 浜у搧</button>';
+    html += '<button class="btn btn-outline" onclick="deleteCategory(' + ci + ')" style="font-size:0.75rem;padding:0.3rem 0.7rem;color:#e74c3c;border-color:#fce4e4;">鉁?鍒犻櫎</button>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="specs-grid" style="margin-bottom:0.75rem;">';
+    html += '<div class="form-group"><div class="form-label">鍝佺被ID</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="id" value="' + esc(cat.id) + '"></div>';
+    html += '<div class="form-group"><div class="form-label">鍝佺被鍚嶇О</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="name" value="' + esc(cat.name) + '"></div>';
+    html += '<div class="form-group"><div class="form-label">鍥炬爣 Emoji</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="icon" value="' + esc(cat.icon || '') + '"></div>';
+    html += '<div class="form-group"><div class="form-label">棰滆壊</div><select class="form-input cat-field" data-cat="' + ci + '" data-field="color"><option value="rose"' + (cat.color==='rose'?' selected':'') + '>rose</option><option value="blue"' + (cat.color==='blue'?' selected':'') + '>blue</option></select></div>';
+    html += '</div>';
+
+    cat.products.forEach(function(prod, pi) {
+      html += '<div style="background:#f9fafb;border-radius:8px;padding:0.85rem;margin-bottom:0.5rem;border:1px solid var(--border);">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">';
+      html += '<strong style="font-size:0.85rem;">馃摝 浜у搧 #' + (pi+1) + ' 鈥?' + esc(prod.name) + '</strong>';
+      html += '<button class="btn btn-outline" onclick="deleteProduct(' + ci + ',' + pi + ')" style="font-size:0.7rem;padding:0.2rem 0.5rem;color:#e74c3c;border-color:#fce4e4;">鉁?鍒犻櫎</button>';
+      html += '</div>';
+      html += '<div class="specs-grid">';
+      html += '<div class="form-group"><div class="form-label">浜у搧ID</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="id" value="' + esc(prod.id) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">鍚嶇О</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="name" value="' + esc(prod.name) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">鍥剧墖ID</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="image" value="' + esc(prod.image) + '" placeholder="product-cotton-pad"></div>';
+      html += '<div class="form-group"><div class="form-label">MOQ</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="moq" value="' + esc(prod.moq) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">璁よ瘉</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="certification" value="' + esc(prod.certification) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">灏哄</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="size" value="' + esc(prod.size) + '"></div>';
+      html += '</div></div>';
+    });
+
+    html += '</div>';
+  });
+
+  html += '<button class="btn btn-primary" onclick="addCategory()" style="margin-top:0.5rem;">+ 娣诲姞鍝佺被</button>';
+  html += '<p style="font-size:0.75rem;color:var(--text2);margin-top:0.5rem;">淇敼鍚庨渶鐐瑰嚮椤堕儴"鐢熸垚缃戠珯鍖?鎵嶈兘瀵煎嚭鍒?product.html</p>';
+
+  container.innerHTML = html;
+}
+
+function addCategory() {
+  if (!productDataEdited) return showToast('璇峰厛鍔犺浇浜у搧鏁版嵁', 'error');
+  var data = JSON.parse(productDataEdited);
+  data.categories.push({ id: 'new-category', name: 'New Category', icon: '馃摝', color: 'rose', products: [{ id: 'new-product', name: 'New Product', image: 'placeholder', moq: 'TBD', certification: 'ISO, CE', size: 'TBD' }] });
+  productDataEdited = JSON.stringify(data, null, 2);
+  renderProductDataEditor(data);
+}
+
+function addProduct(ci) {
+  if (!productDataEdited) return showToast('璇峰厛鍔犺浇浜у搧鏁版嵁', 'error');
+  var data = JSON.parse(productDataEdited);
+  if (!data.categories[ci]) return;
+  data.categories[ci].products.push({ id: 'new-product-' + Date.now(), name: 'New Product', image: 'placeholder', moq: 'TBD', certification: 'ISO, CE', size: 'TBD' });
+  productDataEdited = JSON.stringify(data, null, 2);
+  renderProductDataEditor(data);
+}
+
+function deleteCategory(ci) {
+  if (!productDataEdited) return;
+  if (!confirm('纭畾鍒犻櫎杩欎釜鍝佺被鍙婂叾鎵€鏈変骇鍝侊紵')) return;
+  var data = JSON.parse(productDataEdited);
+  data.categories.splice(ci, 1);
+  productDataEdited = JSON.stringify(data, null, 2);
+  renderProductDataEditor(data);
+}
+
+function deleteProduct(ci, pi) {
+  if (!productDataEdited) return;
+  if (!confirm('纭畾鍒犻櫎杩欎釜浜у搧锛?)) return;
+  var data = JSON.parse(productDataEdited);
+  if (!data.categories[ci]) return;
+  data.categories[ci].products.splice(pi, 1);
+  productDataEdited = JSON.stringify(data, null, 2);
+  renderProductDataEditor(data);
+}
+
+document.addEventListener('input', function(e) {
+  if (!productDataEdited) return;
+  if (e.target.classList.contains('cat-field') || e.target.classList.contains('prod-field')) {
+    saveProductDataEdits();
+  }
+});
+
+function saveProductDataEdits() {
+  try {
+    var data = JSON.parse(productDataEdited);
+    document.querySelectorAll('.cat-field').forEach(function(el) {
+      var ci = parseInt(el.dataset.cat);
+      var field = el.dataset.field;
+      if (!isNaN(ci) && data.categories[ci]) data.categories[ci][field] = el.value;
+    });
+    document.querySelectorAll('.prod-field').forEach(function(el) {
+      var ci = parseInt(el.dataset.cat);
+      var pi = parseInt(el.dataset.prod);
+      var field = el.dataset.field;
+      if (!isNaN(ci) && !isNaN(pi) && data.categories[ci] && data.categories[ci].products[pi]) data.categories[ci].products[pi][field] = el.value;
+    });
+    productDataEdited = JSON.stringify(data, null, 2);
+  } catch(e) { console.error('saveProductDataEdits:', e); }
+}
+
+function esc(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============================================================
+// BUILD SEO FIELDS
+// ============================================================
+const SEO_PAGES = [
+  ['home', '棣栭〉'],
+  ['about_page', '鍏充簬鎴戜滑'],
+  ['factory_page', '宸ュ巶瀹炲姏'],
+  ['quality_page', '璐ㄦ璁よ瘉'],
+  ['contact_page', '鑱旂郴鎴戜滑'],
+  ['product_page_sanitary', '浜у搧椤?鍗敓宸?],
+  ['product_page_adult', '浜у搧椤?绾稿翱瑁?],
+  ['knowledge', '鐭ヨ瘑涓績'],
+  ['stats', '鏁版嵁缁熻'],
+];
+
+function buildSEOFields() {
+  const container = document.getElementById('seoFields');
+  const defaultSEO = {
+    home: { title: 'OEM Sanitary Pads & Adult Diapers Manufacturer | Graceful International', title_zh: '鍗敓宸?鎴愪汉绾稿翱瑁EM鍘傚 | 娴峰渤闆嗗洟', desc: 'Professional OEM/ODM manufacturer of sanitary pads and adult diapers. 400-acre factory, 14 automated lines, ISO9001 & ISO13485 certified. Exporting to Europe, America & Korea. Free samples available.', desc_zh: '涓撲笟鍗敓宸惧拰鎴愪汉绾稿翱瑁EM/ODM鍒堕€犲晢銆?00浜╁伐鍘傦紝14鏉″叏鑷姩鐢熶骇绾匡紝ISO9001鍜孖SO13485鍙岃璇併€傚嚭鍙ｆ缇庨煩鍥斤紝鍏嶈垂鏍峰搧銆?, kw: 'OEM sanitary pads manufacturer, adult diapers factory, feminine hygiene OEM, incontinence products manufacturer, private label sanitary napkins, wholesale adult diapers, hygiene products supplier China', kw_zh: '鍗敓宸綩EM鍘傚, 鎴愪汉绾稿翱瑁ゅ伐鍘? 濂虫€у崼鐢熺敤鍝佷唬宸? 澶辩鐢ㄥ搧鐢熶骇鍟? 鍗敓宸捐创鐗? 鎴愪汉绾稿翱瑁ゆ壒鍙? 鍗敓鐢ㄥ搧渚涘簲鍟? },
+    about_page: { title: 'About Us | Graceful International', title_zh: '鍏充簬鎴戜滑 | 娴峰渤闆嗗洟', desc: 'Learn about Graceful International (HK) Limited, a professional hygiene products manufacturer since 2018. 400-acre factory, 14 automated lines, ISO certified.', desc_zh: '浜嗚В娴峰渤闆嗗洟锛堥娓級鑲′唤鏈夐檺鍏徃锛岃嚜2018骞存垚绔嬬殑涓撲笟鍗敓鐢ㄥ搧鍒堕€犲晢銆?00浜╁伐鍘傦紝14鏉′骇绾匡紝ISO鍙岃璇併€?, kw: 'about Graceful International, hygiene products manufacturer, sanitary pads factory China', kw_zh: '娴峰渤闆嗗洟, 鍗敓鐢ㄥ搧鍒堕€犲晢, 鍗敓宸惧伐鍘? },
+    factory_page: { title: 'Factory & Production | Graceful International', title_zh: '宸ュ巶瀹炲姏 | 娴峰渤闆嗗洟', desc: 'Tour our 400-acre manufacturing facility in Weifang, Shandong. 14 automated production lines, 300 professionals, OEM/ODM capabilities.', desc_zh: '鍙傝鎴戜滑浣嶄簬灞变笢娼嶅潑鐨?00浜╃敓浜у熀鍦般€?4鏉″叏鑷姩鐢熶骇绾匡紝300鍚嶄笓涓氫汉鍛橈紝OEM/ODM鑳藉姏銆?, kw: 'sanitary pads factory, adult diapers production line, hygiene products manufacturing facility, Weifang factory, China OEM manufacturer', kw_zh: '鍗敓宸剧敓浜у伐鍘? 鎴愪汉绾稿翱瑁ょ敓浜х嚎, 鍗敓鐢ㄥ搧鐢熶骇鍩哄湴, 娼嶅潑宸ュ巶, OEM鍒堕€犲晢' },
+    quality_page: { title: 'Quality & Certifications | Graceful International', title_zh: '璐ㄩ噺璁よ瘉 | 娴峰渤闆嗗洟', desc: 'ISO 9001 and ISO 13485 certified quality management. In-house lab testing, 30-person QC team, rigorous quality control processes.', desc_zh: 'ISO 9001鍜孖SO 13485璁よ瘉璐ㄩ噺绠＄悊浣撶郴銆傚唴閮ㄥ疄楠屽妫€娴嬶紝30浜鸿川妫€鍥㈤槦锛屼弗鏍艰川鎺ф祦绋嬨€?, kw: 'ISO 9001 sanitary pads, ISO 13485 medical devices, quality certified hygiene products, QC testing lab', kw_zh: 'ISO9001鍗敓宸? ISO13485鍖荤枟鍣ㄦ, 璐ㄩ噺璁よ瘉鍗敓鐢ㄥ搧, 璐ㄦ瀹為獙瀹? },
+    contact_page: { title: 'Contact Us | Graceful International', title_zh: '鑱旂郴鎴戜滑 | 娴峰渤闆嗗洟', desc: 'Contact Graceful International for OEM/ODM sanitary pads and adult diapers manufacturing. Request quotes, free samples, and partnership inquiries.', desc_zh: '鑱旂郴娴峰渤闆嗗洟锛岃幏鍙栧崼鐢熷肪鍜屾垚浜虹焊灏胯￥OEM/ODM鎶ヤ环銆佸厤璐规牱鍝佸拰鍚堜綔鍜ㄨ銆?, kw: 'contact hygiene products manufacturer, OEM sanitary pads inquiry, adult diapers supplier contact, Graceful International contact', kw_zh: '鑱旂郴鍗敓鐢ㄥ搧鍒堕€犲晢, OEM鍗敓宸捐浠? 鎴愪汉绾稿翱瑁や緵搴斿晢鑱旂郴, 娴峰渤闆嗗洟鑱旂郴鏂瑰紡' },
+    product_page_sanitary: { title: 'Sanitary Pads Manufacturing | OEM/ODM Feminine Hygiene Products', title_zh: '鍗敓宸綩EM鍒堕€?| 濂虫€у崼鐢熺敤鍝丱DM鐢熶骇鍟?, desc: 'Professional manufacturer of sanitary pads and feminine hygiene products. OEM/ODM services with ISO9001 & ISO13485 certifications.', desc_zh: '涓撲笟鍗敓宸惧強濂虫€у崼鐢熺敤鍝佸埗閫犲晢銆傛彁渚汷EM/ODM鏈嶅姟锛孖SO9001鍜孖SO13485鍙岃璇併€?, kw: 'sanitary pads, menstrual pads, OEM sanitary napkins, feminine hygiene manufacturer', kw_zh: '鍗敓宸? 鏈堢粡鍨? OEM鍗敓宸? 濂虫€у崼鐢熺敤鍝佸埗閫犲晢' },
+    product_page_adult: { title: 'Adult Diapers Manufacturing | OEM Incontinence Care Products', title_zh: '鎴愪汉绾稿翱瑁EM鍒堕€?| 澶辩鎶ょ悊鐢ㄥ搧鐢熶骇鍟?, desc: 'Professional manufacturer of adult diapers and incontinence care products. ISO13485 certified.', desc_zh: '涓撲笟鎴愪汉绾稿翱瑁ゅ強澶辩鎶ょ悊鐢ㄥ搧鍒堕€犲晢銆侷SO13485璁よ瘉銆?, kw: 'adult diapers, incontinence briefs, OEM adult diaper manufacturer', kw_zh: '鎴愪汉绾稿翱瑁? 澶辩鎶ょ悊瑁? OEM鎴愪汉绾稿翱瑁ょ敓浜у晢' },
+    knowledge: { title: 'Knowledge Hub | Hygiene Industry Guide & Glossary', title_zh: '鐭ヨ瘑涓績 | 鍗敓鐢ㄥ搧琛屼笟鎸囧崡涓庢湳璇〃', desc: 'Hygiene industry knowledge center 鈥?OEM manufacturing guide, terminology glossary, and market insights.', desc_zh: '鍗敓鐢ㄥ搧琛屼笟鐭ヨ瘑涓績鈥斺€擮EM鍒堕€犳寚鍗椼€佹湳璇〃鍜屽競鍦烘礊瀵熴€?, kw: 'sanitary pads manufacturing guide, adult diapers OEM guide, hygiene products glossary', kw_zh: '鍗敓宸惧埗閫犳寚鍗? 鎴愪汉绾稿翱瑁EM鎸囧崡, 鍗敓鐢ㄥ搧鏈琛? },
+    stats: { title: 'Industry Statistics | Factory Capacity & Global Market Data', title_zh: '琛屼笟鏁版嵁 | 宸ュ巶浜ц兘涓庡叏鐞冨競鍦虹粺璁?, desc: 'Verified factory capacity data and global hygiene industry statistics.', desc_zh: '缁忚繃楠岃瘉鐨勫伐鍘備骇鑳芥暟鎹拰鍏ㄧ悆鍗敓鐢ㄥ搧琛屼笟缁熻鏁版嵁銆?, kw: 'sanitary pads production capacity, adult diapers manufacturing statistics, hygiene industry data', kw_zh: '鍗敓宸句骇鑳? 鎴愪汉绾稿翱瑁や骇閲忕粺璁? 鍗敓鐢ㄥ搧琛屼笟鏁版嵁' },
+  };
+
+  SEO_PAGES.forEach(([key, label]) => {
+    const seo = defaultSEO[key] || { title: '', title_zh: '', desc: '', desc_zh: '', kw: '', kw_zh: '' };
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.marginBottom = '0.75rem';
+    div.innerHTML = `
+      <div class="card-header"><span class="card-title">馃搫 ${label}</span><span style="font-size:0.75rem;color:var(--text2)">key: ${key}</span></div>
+      <div class="specs-grid">
+        <div class="form-group"><div class="form-label">Title (EN)</div><input class="form-input seo-input" data-seo="${key}" data-field="title" value="${escapeHtml(seo.title)}"></div>
+        <div class="form-group"><div class="form-label">Title (ZH)</div><input class="form-input seo-input" data-seo="${key}" data-field="title_zh" value="${escapeHtml(seo.title_zh)}"></div>
+      </div>
+      <div class="form-group"><div class="form-label">Description (EN)</div><textarea class="form-textarea seo-input" data-seo="${key}" data-field="desc" style="min-height:50px">${escapeHtml(seo.desc)}</textarea></div>
+      <div class="form-group"><div class="form-label">Description (ZH)</div><textarea class="form-textarea seo-input" data-seo="${key}" data-field="desc_zh" style="min-height:50px">${escapeHtml(seo.desc_zh)}</textarea></div>
+      <div class="form-group"><div class="form-label">Keywords (EN)</div><input class="form-input seo-input" data-seo="${key}" data-field="kw" value="${escapeHtml(seo.kw)}"></div>
+      <div class="form-group"><div class="form-label">Keywords (ZH)</div><input class="form-input seo-input" data-seo="${key}" data-field="kw_zh" value="${escapeHtml(seo.kw_zh)}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============================================================
+// COLLECT EDITED I18N DATA
+// ============================================================
+function collectI18nEdits() {
+  const edits = { en: {}, zh: {} };
+  document.querySelectorAll('.lang-en[data-key-en]').forEach(el => {
+    edits.en[el.dataset.keyEn] = el.value;
+  });
+  document.querySelectorAll('.lang-zh[data-key-zh]').forEach(el => {
+    edits.zh[el.dataset.keyZh] = el.value;
+  });
+
+  // Company info
+  edits.company_email = document.getElementById('companyEmail').value;
+  edits.company_whatsapp = document.getElementById('companyWhatsapp').value;
+  edits.company_address_en = document.getElementById('companyAddressEn').value;
+  edits.company_address_zh = document.getElementById('companyAddressZh').value;
+
+  // SEO
+  edits.seo = {};
+  document.querySelectorAll('.seo-input').forEach(el => {
+    const key = el.dataset.seo;
+    const field = el.dataset.field;
+    if (!edits.seo[key]) edits.seo[key] = {};
+    edits.seo[key][field] = el.value;
+  });
+
+  return edits;
+}
+
+// ============================================================
+// RESIZE IMAGE USING CANVAS
+// ============================================================
+function resizeImage(dataUrl, targetW, targetH, format, quality) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, targetW, targetH);
+      const mime = format === 'webp' ? 'image/webp' : 'image/jpeg';
+      canvas.toBlob(blob => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve({ dataUrl: reader.result, blob: blob });
+        reader.readAsDataURL(blob);
+      }, mime, quality || 0.85);
+    };
+    img.src = dataUrl;
+  });
+}
+
+// ============================================================
+// GENERATE ZIP
+// ============================================================
+async function generateZip() {
+  const btn = document.getElementById('btnGenerate');
+  const btn2 = document.getElementById('btnGenerate2');
+  btn.disabled = true; btn2.disabled = true;
+  btn.textContent = '鈴?鎵撳寘涓?..'; btn2.textContent = '鈴?鎵撳寘涓?..';
+
+  const progressWrap = document.getElementById('progressWrap');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const logArea = document.getElementById('logArea');
+  progressWrap.style.display = 'block';
+  logArea.style.display = 'block';
+  logArea.innerHTML = '';
+
+  function log(msg, cls) {
+    logArea.innerHTML += `<div class="log-line ${cls||''}">${msg}</div>`;
+    logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  function setProgress(pct, msg) {
+    progressFill.style.width = pct + '%';
+    progressText.textContent = msg;
+  }
+
+  try {
+    const zip = new JSZip();
+    const i18nEdits = collectI18nEdits();
+    const totalFiles = SITE_FILES.length + IMAGE_SLOTS.length;
+    let done = 0;
+
+    // --- 1. Fetch existing files ---
+    log('馃攳 姝ｅ湪璇诲彇缃戠珯鏂囦欢...', 'info');
+    const fileFetchPromises = SITE_FILES.map(async (path) => {
+      try {
+        const resp = await fetch('/' + path);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const text = await resp.text();
+        return { path, text };
+      } catch (err) {
+        log(`鈿?鏃犳硶璇诲彇 ${path}: ${err.message}`, 'warn');
+        return { path, text: null };
+      }
+    });
+
+    const fetchedFiles = await Promise.all(fileFetchPromises);
+    done += SITE_FILES.length;
+    setProgress(15, '缃戠珯鏂囦欢璇诲彇瀹屾垚');
+
+    // --- 2. Process i18n.js with edits ---
+    log('鉁?姝ｅ湪搴旂敤鏂囧瓧淇敼...', 'info');
+    let i18nContent = null;
+    for (const f of fetchedFiles) {
+      if (f.path === 'js/i18n.js' && f.text) {
+        i18nContent = f.text;
+        break;
+      }
+    }
+
+    if (i18nContent) {
+      // Apply all text edits to i18n.js
+      for (const [lang, edits] of Object.entries(i18nEdits)) {
+        if (lang === 'company_email' || lang === 'company_whatsapp' || lang === 'company_address_en' || lang === 'company_address_zh' || lang === 'seo') continue;
+        for (const [key, value] of Object.entries(edits)) {
+          if (!key.startsWith('_')) {
+            const escapedValue = value.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');
+            // Match the key in i18n translations
+            const regex = new RegExp(`(${key}:\\s*)'[^']*'`, 'g');
+            i18nContent = i18nContent.replace(regex, `$1'${escapedValue}'`);
+          }
+        }
+      }
+
+      // Apply company address
+      if (i18nEdits.company_address_en) {
+        i18nContent = i18nContent.replace(
+          /(footer_address:\s*)'[^']*'/,
+          `$1'${i18nEdits.company_address_en.replace(/'/g,"\\'")}'`
+        );
+      }
+      if (i18nEdits.company_address_zh) {
+        // Find the zh section footer_address
+        const zhSection = i18nContent.indexOf("zh: {");
+        const afterZh = i18nContent.indexOf("footer_address:", zhSection);
+        if (afterZh > 0) {
+          const before = i18nContent.substring(0, afterZh);
+          const rest = i18nContent.substring(afterZh);
+          const replaced = rest.replace(
+            /(footer_address:\s*)'[^']*'/,
+            `$1'${i18nEdits.company_address_zh.replace(/'/g,"\\'")}'`
+          );
+          i18nContent = before + replaced;
+        }
+      }
+
+      // Apply SEO edits
+      if (i18nEdits.seo) {
+        for (const [pageKey, fields] of Object.entries(i18nEdits.seo)) {
+          const seoKeyMap = {
+            title: pageKey + '_title',
+            title_zh: pageKey + '_title',
+            desc: pageKey + '_desc',
+            desc_zh: pageKey + '_desc',
+            kw: pageKey + '_kw',
+            kw_zh: pageKey + '_kw',
+          };
+
+          for (const [field, value] of Object.entries(fields)) {
+            if (!value) continue;
+            const i18nKey = seoKeyMap[field];
+            if (!i18nKey) continue;
+
+            // Find in en section and zh section
+            const escapedValue = value.replace(/'/g,"\\'");
+            
+            // Replace in EN section
+            const enIdx = i18nContent.indexOf("en: {");
+            const searchStr = i18nKey + ": '";
+            const searchStart = i18nContent.indexOf(searchStr, enIdx);
+            if (searchStart > 0) {
+              const endIdx = i18nContent.indexOf("'", searchStart + searchStr.length);
+              if (endIdx > 0 && (!field.endsWith('_zh'))) {
+                i18nContent = i18nContent.substring(0, searchStart + searchStr.length) + escapedValue + i18nContent.substring(endIdx);
+              }
+            }
+
+            // Replace in ZH section
+            if (field.endsWith('_zh')) {
+              const zhIdx = i18nContent.indexOf("zh: {");
+              const zhSearchStr = i18nKey + ": '";
+              const zhSearchStart = i18nContent.indexOf(zhSearchStr, zhIdx);
+              if (zhSearchStart > 0) {
+                const zhEndIdx = i18nContent.indexOf("'", zhSearchStart + zhSearchStr.length);
+                if (zhEndIdx > 0) {
+                  i18nContent = i18nContent.substring(0, zhSearchStart + zhSearchStr.length) + escapedValue + i18nContent.substring(zhEndIdx);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      zip.file('js/i18n.js', i18nContent);
+      log('鉁?鏂囧瓧淇敼宸插簲鐢?, 'ok');
+    }
+
+    // --- 3. Add all fetched files, updating hardcoded contact info ---
+    setProgress(30, '姝ｅ湪鎵撳寘鏂囦欢...');
+    const newEmail = i18nEdits.company_email || 'fiona@gracehygi.com';
+    const newPhone = (i18nEdits.company_whatsapp || '+86 19553316597').replace(/\s/g,'').replace(/^\+/,'');
+    const newPhoneFull = '+' + newPhone;
+
+    for (const f of fetchedFiles) {
+      if (f.path === 'js/i18n.js') continue;
+      if (f.text !== null) {
+        let content = f.text;
+        // Replace hardcoded email and phone in HTML files
+        if (f.path.endsWith('.html')) {
+          content = content.replace(/sale@gracehygi\.com/g, newEmail);
+          content = content.replace(/19553316597/g, newPhone);
+          content = content.replace(/\+86-19553316597/g, '+86-' + newPhone);
+        }
+        zip.file(f.path, content);
+      }
+    }
+
+    // --- Override with edited products-data.js if modified ---
+    if (productDataEdited) {
+      log('鉁?浜у搧鏁版嵁宸叉洿鏂?, 'ok');
+      zip.file('js/products-data.js',
+        '/**\n * Product Data Configuration\n */\nconst PRODUCT_DATA = ' + productDataEdited + ';\n');
+    }
+
+    log('鉁?鑱旂郴鏂瑰紡宸叉洿鏂?, 'ok');
+
+    setProgress(40, '姝ｅ湪澶勭悊鍥剧墖...');
+
+    // --- 4. Process images ---
+    log('馃柤 姝ｅ湪澶勭悊鍥剧墖...', 'info');
+
+    // First, add existing images (preserve originals that weren't replaced)
+    const existingImageFiles = [
+      'hero-factory.jpg', 'hero-factory.webp', 'hero-factory-768w.jpg', 'hero-factory-768w.webp', 'hero-factory-1280w.jpg', 'hero-factory-1280w.webp',
+      'factory-line.jpg', 'factory-line.webp',
+      'factory-raw-materials.jpg', 'factory-raw-materials.webp',
+      'factory-lab.jpg', 'factory-lab.webp',
+      'factory-warehouse.jpg', 'factory-warehouse.webp',
+      'product-organic-cotton.jpg', 'product-organic-cotton.webp',
+      'product-pure-cotton.jpg', 'product-pure-cotton.webp',
+      'product-bamboo-fiber.jpg', 'product-bamboo-fiber.webp',
+      'product-adult-diaper-package.jpg', 'product-adult-diaper-package.webp',
+      'cert-fda.jpg', 'cert-fda.webp',
+      'cert-ecm.jpg',
+      'cert-iso9001.jpg',
+      'cert-compostable.jpg',
+      'cert-eu.jpg',
+    ];
+
+    const uploadCount = Object.keys(uploadedImages).length;
+    let imgDone = 0;
+    let imgTotal = existingImageFiles.length + (uploadCount > 0 ? uploadCount * 3 : 0); // extra for generated variants
+
+    for (const imgName of existingImageFiles) {
+      try {
+        const resp = await fetch('/images/' + imgName);
+        if (resp.ok) {
+          const blob = await resp.blob();
+          zip.file('images/' + imgName, blob);
+        }
+      } catch (e) { /* skip missing */ }
+    }
+
+    // Process uploaded images: generate WebP + responsive sizes
+    for (const [id, imgData] of Object.entries(uploadedImages)) {
+      const slot = IMAGE_SLOTS.find(s => s[0] === id);
+      if (!slot) continue;
+
+      const baseName = slot[1].replace('.jpg', '');
+      log(`  馃攧 ${slot[2]} 鈫?鐢熸垚澶氱増鏈?..`, 'info');
+
+      try {
+        // Original JPG
+        zip.file('images/' + slot[1], imgData.blob);
+
+        // Generate WebP version
+        const webp = await resizeImage(imgData.dataUrl, slot[3], slot[4], 'webp', 0.82);
+        zip.file('images/' + baseName + '.webp', webp.blob);
+
+        // For hero, generate responsive sizes
+        if (slot[6]) {  // responsive
+          const small = await resizeImage(imgData.dataUrl, 768, Math.round(768 * slot[4] / slot[3]), 'jpg', 0.85);
+          const smallWebp = await resizeImage(imgData.dataUrl, 768, Math.round(768 * slot[4] / slot[3]), 'webp', 0.82);
+          zip.file('images/' + baseName + '-768w.jpg', small.blob);
+          zip.file('images/' + baseName + '-768w.webp', smallWebp.blob);
+
+          const medium = await resizeImage(imgData.dataUrl, 1280, Math.round(1280 * slot[4] / slot[3]), 'jpg', 0.85);
+          const mediumWebp = await resizeImage(imgData.dataUrl, 1280, Math.round(1280 * slot[4] / slot[3]), 'webp', 0.82);
+          zip.file('images/' + baseName + '-1280w.jpg', medium.blob);
+          zip.file('images/' + baseName + '-1280w.webp', mediumWebp.blob);
+
+          log(`    鉁?768w + 1280w + 鍏ㄥ昂瀵?宸茬敓鎴恅, 'ok');
+        } else {
+          // Non-responsive: also regenerate JPG through canvas for consistency
+          const jpg = await resizeImage(imgData.dataUrl, slot[3], slot[4], 'jpg', 0.85);
+          zip.file('images/' + slot[1], jpg.blob);
+          log(`    鉁?WebP 鐗堟湰宸茬敓鎴恅, 'ok');
+        }
+      } catch (e) {
+        log(`    鈿?鍥剧墖澶勭悊澶辫触: ${e.message}`, 'warn');
+      }
+
+      imgDone++;
+      setProgress(40 + Math.floor(imgDone / Math.max(imgTotal, 1) * 40), '澶勭悊鍥剧墖涓?..');
+    }
+
+    // --- 5. Finalize ---
+    setProgress(85, '姝ｅ湪鍘嬬缉鎵撳寘...');
+    log('馃棞 姝ｅ湪鍘嬬缉...', 'info');
+
+    const zipBlob = await zip.generateAsync({
+      type: 'blob',
+      compression: 'DEFLATE',
+      compressionOptions: { level: 6 }
+    }, (meta) => {
+      setProgress(85 + Math.floor(meta.percent / 100 * 10), `鍘嬬缉涓?${meta.percent.toFixed(0)}%`);
+    });
+
+    setProgress(100, '鎵撳寘瀹屾垚锛佹鍦ㄤ笅杞?..');
+    log(`鉁?鎵撳寘瀹屾垚锛佸叡 ${Object.keys(zip.files).length} 涓枃浠禶, 'ok');
+
+    // Show file list
+    const fileListDiv = document.getElementById('fileList');
+    fileListDiv.innerHTML = '<strong>馃搵 鍖呭惈鏂囦欢锛?/strong><br>' + Object.keys(zip.files).slice(0, 30).join('<br>') +
+      (Object.keys(zip.files).length > 30 ? '<br>... 绛夊叡 ' + Object.keys(zip.files).length + ' 涓枃浠? : '');
+
+    // Download
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gracehygi-website.zip';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    setTimeout(() => {
+      showToast('鉁?缃戠珯鍖呭凡鐢熸垚骞跺紑濮嬩笅杞斤紒涓婁紶鍒?Cloudflare Pages 鍗冲彲鏇存柊銆?, 'success');
+    }, 500);
+
+  } catch (err) {
+    log(`鉂?閿欒: ${err.message}`, 'warn');
+    console.error(err);
+    showToast('鉂?鐢熸垚澶辫触锛? + err.message, 'error');
+  } finally {
+    btn.disabled = false; btn2.disabled = false;
+    btn.textContent = '馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇'; btn2.textContent = '馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇';
+  }
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showToast(msg, type) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function previewSite() {
+  window.open('/', '_blank');
+}
+
+// ============================================================
+// OEM ORDER MANAGEMENT
+// ============================================================
+function refreshOrders() {
+  var container = document.getElementById('ordersContainer');
+  container.innerHTML = '<div class="empty-state">鍔犺浇涓?..</div>';
+
+  var orders = [];
+  var source = '';
+
+  // Try fetching from API first
+  fetch('/api/get-orders?password=gracehygi2024')
+    .then(function(res) {
+      if (!res.ok) throw new Error('API not available');
+      return res.json();
+    })
+    .then(function(data) {
+      if (data.success) {
+        orders = data.orders || [];
+        source = '鏈嶅姟鍣?(KV)';
+        renderOrders(orders, source);
+      }
+    })
+    .catch(function() {
+      // Fallback: read from localStorage
+      try {
+        var raw = localStorage.getItem('gracehygi_oem_orders');
+        if (raw) {
+          orders = JSON.parse(raw).reverse();
+          source = '鏈湴瀛樺偍 (娴忚鍣?';
+        } else {
+          source = '鏃犳暟鎹?;
+        }
+        renderOrders(orders, source);
+      } catch(e) {
+        container.innerHTML = '<div class="empty-state">鈿?鍔犺浇澶辫触: ' + e.message + '</div>';
+      }
+    });
+}
+
+function renderOrders(orders, source) {
+  var container = document.getElementById('ordersContainer');
+  document.getElementById('orderSource').textContent = source + ' 路 ' + orders.length + ' 鏉?;
+
+  if (orders.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">馃摥</div>鏆傛棤OEM瀹氬埗璁㈠崟<br><small>褰撳鎴烽€氳繃OEM椤甸潰鎻愪氦璁㈠崟鍚庯紝杩欓噷灏嗘樉绀鸿鍗曡鎯?/small></div>';
+    return;
+  }
+
+  var html = '';
+  orders.forEach(function(order, idx) {
+    var sizes = Array.isArray(order.sizes) ? order.sizes.join(', ') : (order.sizes || '-');
+    var packaging = Array.isArray(order.packaging) ? order.packaging.join(', ') : '-';
+    var disposal = Array.isArray(order.disposal) ? order.disposal.join(', ') : '-';
+    var ts = order.timestamp || order.submittedAt || '';
+
+    html += '<div class="card" style="margin-bottom:0.75rem;">';
+    html += '<div class="card-header">';
+    html += '<span class="card-title">#' + (idx + 1) + ' <span style="font-weight:400;font-size:0.8rem;color:var(--text2);">' + (order.id || '') + '</span></span>';
+    html += '<span style="font-size:0.75rem;color:var(--text2);">' + formatDate(ts) + '</span>';
+    html += '</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem 1.5rem;font-size:0.85rem;">';
+    html += '<div><strong>濮撳悕:</strong> ' + esc(order.name) + '</div>';
+    html += '<div><strong>閭:</strong> ' + esc(order.email) + '</div>';
+    html += '<div><strong>鐢佃瘽:</strong> ' + esc(order.phone) + '</div>';
+    html += '<div><strong>鍏徃:</strong> ' + esc(order.company || '-') + '</div>';
+    html += '<div><strong>鍥藉:</strong> ' + esc(order.country) + '</div>';
+    html += '<div><strong>棰勮鏈堥噺:</strong> ' + esc(order.quantity || '-') + '</div>';
+    html += '<div><strong>灏哄:</strong> ' + esc(sizes) + '</div>';
+    html += '<div><strong>椤跺眰闈㈡枡:</strong> ' + esc(order.topsheet || '-') + '</div>';
+    html += '<div><strong>搴曡啘:</strong> ' + esc(order.bottomfilm || '-') + '</div>';
+    html += '<div><strong>鍔熻兘鑺墖:</strong> ' + esc(order.chip || '-') + '</div>';
+    html += '<div><strong>鍖呰:</strong> ' + esc(packaging) + '</div>';
+    html += '<div><strong>澶勭悊璇存槑:</strong> ' + esc(disposal) + '</div>';
+    if (order.packaging_notes) html += '<div style="grid-column:1/-1;"><strong>鍖呰澶囨敞:</strong> ' + esc(order.packaging_notes) + '</div>';
+    if (order.disposal_notes) html += '<div style="grid-column:1/-1;"><strong>澶勭悊澶囨敞:</strong> ' + esc(order.disposal_notes) + '</div>';
+    if (order.message) html += '<div style="grid-column:1/-1;padding:0.5rem;background:#f9fafb;border-radius:4px;"><strong>瀹㈡埛鐣欒█:</strong> ' + esc(order.message) + '</div>';
+    html += '</div></div>';
+  });
+
+  container.innerHTML = html;
+}
+
+// ============================================================
+// CUSTOM ORDERS (custom.html submissions)
+// ============================================================
+function refreshCustomOrders() {
+  var container = document.getElementById('customOrdersContainer');
+  container.innerHTML = '<div class="empty-state">鍔犺浇涓?..</div>';
+
+  var orders = [];
+  var source = '';
+
+  fetch('/api/get-custom-orders?password=gracehygi2024')
+    .then(function(res) {
+      if (!res.ok) throw new Error('API not available');
+      return res.json();
+    })
+    .then(function(data) {
+      if (data.success) {
+        orders = data.orders || [];
+        source = '鏈嶅姟鍣?(KV)';
+        renderCustomOrders(orders, source);
+      }
+    })
+    .catch(function() {
+      try {
+        var raw = localStorage.getItem('gracehygi_custom_orders');
+        if (raw) {
+          orders = JSON.parse(raw).reverse();
+          source = '鏈湴瀛樺偍 (娴忚鍣?';
+        } else {
+          source = '鏃犳暟鎹?;
+        }
+        renderCustomOrders(orders, source);
+      } catch(e) {
+        container.innerHTML = '<div class="empty-state">鈿?鍔犺浇澶辫触: ' + e.message + '</div>';
+      }
+    });
+}
+
+function renderCustomOrders(orders, source) {
+  var container = document.getElementById('customOrdersContainer');
+  document.getElementById('customOrderSource').textContent = source + ' 路 ' + orders.length + ' 鏉?;
+
+  if (orders.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">馃摥</div>鏆傛棤Custom瀹氬埗璁㈠崟<br><small>褰撳鎴烽€氳繃Custom椤甸潰鎻愪氦璁㈠崟鍚庯紝杩欓噷灏嗘樉绀鸿鍗曡鎯?/small></div>';
+    return;
+  }
+
+  var html = '';
+  orders.forEach(function(order, idx) {
+    var ts = order.timestamp || order.submittedAt || '';
+
+    html += '<div class="card" style="margin-bottom:0.75rem;">';
+    html += '<div class="card-header">';
+    html += '<span class="card-title">#' + (idx + 1) + ' <span style="font-weight:400;font-size:0.8rem;color:var(--text2);">' + (order.id || '') + '</span></span>';
+    html += '<span style="font-size:0.75rem;color:var(--text2);">' + formatDate(ts) + '</span>';
+    html += '</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem 1.5rem;font-size:0.85rem;">';
+    html += '<div><strong>濮撳悕:</strong> ' + esc(order.name) + '</div>';
+    html += '<div><strong>閭:</strong> ' + esc(order.email) + '</div>';
+    html += '<div><strong>鐢佃瘽:</strong> ' + esc(order.phone || '-') + '</div>';
+    html += '<div><strong>鍏徃:</strong> ' + esc(order.company || '-') + '</div>';
+    html += '<div><strong>鍥藉:</strong> ' + esc(order.country || '-') + '</div>';
+    html += '<div><strong>棰勮鏈堥噺:</strong> ' + esc(order.quantity || '-') + '</div>';
+    html += '<div><strong>灏哄:</strong> ' + esc(order.size || '-') + '</div>';
+    html += '<div><strong>鍔熻兘鑺墖:</strong> ' + esc(order.chip || '-') + '</div>';
+    html += '<div><strong>鐨偆鎺ヨЕ灞?</strong> ' + esc(order.layer || '-') + '</div>';
+    html += '<div><strong>鍖呰鑶?</strong> ' + esc(order.wrapper || '-') + '</div>';
+    html += '<div><strong>灞曠ず/鏈哄櫒:</strong> ' + esc(order.display || '-') + '</div>';
+    html += '<div><strong>澶栧寘瑁?</strong> ' + esc(order.package || '-') + '</div>';
+    if (order.message) html += '<div style="grid-column:1/-1;padding:0.5rem;background:#f9fafb;border-radius:4px;"><strong>瀹㈡埛鐣欒█:</strong> ' + esc(order.message) + '</div>';
+    html += '</div></div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function formatDate(ts) {
+  if (!ts) return '-';
+  try {
+    var d = new Date(ts);
+    return d.toLocaleString('zh-CN', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+  } catch(e) { return ts; }
+}
+
+function esc(s) {
+  if (!s) return '-';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Load orders when clicking the orders tab
+document.addEventListener('DOMContentLoaded', function() {
+  var ordersTab = document.querySelector('[data-tab="tab-orders"]');
+  if (ordersTab) {
+    ordersTab.addEventListener('click', function() {
+      refreshOrders();
+    });
+  }
+  var customOrdersTab = document.querySelector('[data-tab="tab-custom-orders"]');
+  if (customOrdersTab) {
+    customOrdersTab.addEventListener('click', function() {
+      refreshCustomOrders();
+    });
+  }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  buildImageCards();
+  buildSEOFields();
+});
+
+</script>
+</div><!-- /adminMain -->
+
+<script>
+// ---------- 鐧诲綍閫昏緫 ----------
+const ADMIN_PASSWORD = 'gracehygi2024';  // 榛樿瀵嗙爜锛岄儴缃插悗鍙慨鏀?
+function checkAuth() {
+  var authed = sessionStorage.getItem('gracehygi_admin_auth');
+  if (authed === '1') {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('adminMain').style.display = '';
+  }
+}
+
+function doLogin() {
+  var pw = document.getElementById('loginPassword').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem('gracehygi_admin_auth', '1');
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('adminMain').style.display = '';
+    document.getElementById('loginError').textContent = '';
+  } else {
+    document.getElementById('loginError').textContent = '瀵嗙爜閿欒锛岃閲嶈瘯';
+    document.getElementById('loginPassword').value = '';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('gracehygi_admin_auth');
+  document.getElementById('loginOverlay').style.display = '';
+  document.getElementById('adminMain').style.display = 'none';
+}
+checkAuth();
+</script>
+</body>

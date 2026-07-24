@@ -451,7 +451,7 @@ function handleImageUpload(id, input) {
     document.getElementById('card-' + id).classList.add('has-image');
     document.getElementById('reset-' + id).style.display = '';
     const status = document.getElementById('status-' + id);
-    status.textContent = '已修改;
+    status.textContent = '已修改';
     status.className = 'img-status new';
 
     input.value = '';
@@ -516,7 +516,7 @@ async function loadProductData() {
     if (!resp.ok) {
       productDataEdited = getDefaultProductData();
       renderProductDataEditor(JSON.parse(productDataEdited));
-      showToast('?有到产品数捖件，已加载默认数?, 'error');
+      showToast('未找到产品数据文件，已加载默认数据', 'error');
       return;
     }
     let text = await resp.text();
@@ -525,7 +525,7 @@ async function loadProductData() {
     productDataEdited = text;
     const data = JSON.parse(text);
     renderProductDataEditor(data);
-    showToast('产品数据已加载, 'success');
+    showToast('产品数据已加载', 'success');
   } catch (err) {
     container.innerHTML = '<div class="empty-state">加载失败: ' + err.message + '<br><button class="btn btn-outline" onclick="loadProductData()" style="margin-top:1rem;">重试</button></div>';
   }
@@ -624,7 +624,7 @@ function deleteCategory(ci) {
 
 function deleteProduct(ci, pi) {
   if (!productDataEdited) return;
-  if (!confirm('确认删除这个产品?)) return;
+  if (!confirm('确认删除这个产品？')) return;
   var data = JSON.parse(productDataEdited);
   if (!data.categories[ci]) return;
   data.categories[ci].products.splice(pi, 1);
@@ -671,8 +671,8 @@ const SEO_PAGES = [
   ['factory_page', '工厂实力'],
   ['quality_page', '质检认证'],
   ['contact_page', '联系我们'],
-  ['product_page_sanitary', '产品 — 卫生巾],
-  ['product_page_adult', '产品 — 成人纸尿裤],
+  ['product_page_sanitary', '产品 — 卫生巾'],
+  ['product_page_adult', '产品 — 成人纸尿裤'],
   ['knowledge', '知识中心'],
   ['stats', '数据统计'],
 ];
@@ -913,7 +913,7 @@ async function generateZip() {
       }
 
       zip.file('js/i18n.js', i18nContent);
-      log('文字修改已应用, 'ok');
+      log('文字修改已应用', 'ok');
     }
 
     // --- 3. Add all fetched files, updating hardcoded contact info ---
@@ -938,12 +938,12 @@ async function generateZip() {
 
     // --- Override with edited products-data.js if modified ---
     if (productDataEdited) {
-      log('产品数据已更新, 'ok');
+      log('产品数据已更新', 'ok');
       zip.file('js/products-data.js',
         '/**\n * Product Data Configuration\n */\nconst PRODUCT_DATA = ' + productDataEdited + ';\n');
     }
 
-    log('联系方式已更新, 'ok');
+    log('联系方式已更新', 'ok');
 
     setProgress(40, '正在处理图片...');
 
@@ -1056,7 +1056,7 @@ async function generateZip() {
     URL.revokeObjectURL(url);
 
     setTimeout(() => {
-      showToast('网站包已生成并开始下载！上传到 Cloudflare Pages 即可更新网站, 'success');
+      showToast('网站包已生成并开始下载！上传到 Cloudflare Pages 即可更新网站', 'success');
     }, 500);
 
   } catch (err) {
@@ -1117,7 +1117,7 @@ function refreshOrders() {
           orders = JSON.parse(raw).reverse();
           source = '本地存储 (浏览器';
         } else {
-          source = '无数据;
+          source = '无数据';
         }
         renderOrders(orders, source);
       } catch(e) {
@@ -1128,7 +1128,7 @@ function refreshOrders() {
 
 function renderOrders(orders, source) {
   var container = document.getElementById('ordersContainer');
-  document.getElementById('orderSource').textContent = source + ' · ' + orders.length + ' ?;
+  document.getElementById('orderSource').textContent = source + ' · ' + orders.length + ' 条';
 
   if (orders.length === 0) {
     container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">📭</div>暂无OEM定制订单<br><small>当用户通过OEM页面提交订单后，这里将显示订单/small></div>';
@@ -1198,7 +1198,7 @@ function refreshCustomOrders() {
           orders = JSON.parse(raw).reverse();
           source = '本地存储 (浏览器';
         } else {
-          source = '无数据;
+          source = '无数据';
         }
         renderCustomOrders(orders, source);
       } catch(e) {
@@ -1209,7 +1209,7 @@ function refreshCustomOrders() {
 
 function renderCustomOrders(orders, source) {
   var container = document.getElementById('customOrdersContainer');
-  document.getElementById('customOrderSource').textContent = source + ' · ' + orders.length + ' ?;
+  document.getElementById('customOrderSource').textContent = source + ' · ' + orders.length + ' 条';
 
   if (orders.length === 0) {
     container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">📭</div>暂无Custom定制订单<br><small>当用户通过Custom页面提交订单后，这里将显示订单/small></div>';

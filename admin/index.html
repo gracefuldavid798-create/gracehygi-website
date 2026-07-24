@@ -373,6 +373,50 @@ const uploadedImages = {};
 let currentProductLang = 'en';
 let currentCompanyLang = 'en';
 
+// IndexedDB wrapper for image persistence (survives page refresh)
+const imageDB = {
+  db: null,
+  init() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('gracehygi_images', 1);
+      req.onupgradeneeded = (e) => {
+        e.target.result.createObjectStore('images', { keyPath: 'id' });
+      };
+      req.onsuccess = (e) => { this.db = e.target.result; resolve(); };
+      req.onerror = (e) => reject(e);
+    });
+  },
+  async save(id, dataUrl) {
+    if (!this.db) await this.init();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('images', 'readwrite');
+      const store = tx.objectStore('images');
+      const req = store.put({ id, dataUrl, timestamp: Date.now() });
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+    });
+  },
+  async get(id) {
+    if (!this.db) await this.init();
+    return new Promise((resolve) => {
+      const tx = this.db.transaction('images', 'readonly');
+      const store = tx.objectStore('images');
+      const req = store.get(id);
+      req.onsuccess = () => resolve(req.result ? req.result.dataUrl : null);
+      req.onerror = () => resolve(null);
+    });
+  },
+  async remove(id) {
+    if (!this.db) await this.init();
+    return new Promise((resolve) => {
+      const tx = this.db.transaction('images', 'readwrite');
+      const store = tx.objectStore('images');
+      const req = store.delete(id);
+      req.onsuccess = () => resolve();
+    });
+  }
+};
+
 // File list for zip
 const SITE_FILES = [
   'index.html', 'oem.html', 'custom.html', 'quality.html', 'contact.html',
@@ -416,14 +460,31 @@ function buildImageCards() {
         </div>
         <div class="img-actions">
           <button onclick="uploadImage('${slot[0]}')">📤 上传</button>
-          <button class="btn-del" onclick="resetImage('${slot[0]}')" style="display:none" id="reset-${slot[0]}">?重置</button>
+          <button class="btn-del" onclick="resetImage('${slot[0]}')" style="display:none" id="reset-${slot[0]}">↩ 重置</button>
         </div>
       </div>
       <input type="file" id="file-${slot[0]}" accept="image/*" onchange="handleImageUpload('${slot[0]}', this)" style="display:none">
       <span class="img-status orig" style="position:absolute;top:8px;right:8px;" id="status-${slot[0]}">原始</span>
     `;
     grid.appendChild(card);
+
+    // Try to load existing image from server as preview
+    const serverImg = new Image();
+    serverImg.onload = function() {
+      const preview = document.getElementById('preview-' + slot[0]);
+      if (preview && !uploadedImages[slot[0]]) {
+        preview.innerHTML = `<img loading="lazy" decoding="async" src="/images/${slot[1]}" alt="${slot[2]}" style="width:100%;height:100%;object-fit:cover;">`;
+        card.classList.add('has-image');
+      }
+    };
+    serverImg.onerror = function() {
+      // Keep placeholder if image doesn't exist on server
+    };
+    serverImg.src = '/images/' + slot[1];
   });
+
+  // Restore any uploaded images from IndexedDB
+  restoreUploadedImages();
 }
 
 function uploadImage(id) {
@@ -447,6 +508,9 @@ function handleImageUpload(id, input) {
       isNew: true
     };
 
+    // Persist to IndexedDB
+    imageDB.save(id, e.target.result);
+
     // Update UI
     document.getElementById('card-' + id).classList.add('has-image');
     document.getElementById('reset-' + id).style.display = '';
@@ -461,16 +525,52 @@ function handleImageUpload(id, input) {
 
 function resetImage(id) {
   delete uploadedImages[id];
+  imageDB.remove(id);
   const preview = document.getElementById('preview-' + id);
   const slot = IMAGE_SLOTS.find(s => s[0] === id);
   if (slot) {
     preview.innerHTML = `<div>📷 ${slot[2]}<br><small>${slot[3]}×${slot[4]}</small></div>`;
+    // Re-try loading server image
+    const serverImg = new Image();
+    serverImg.onload = function() {
+      preview.innerHTML = `<img loading="lazy" decoding="async" src="/images/${slot[1]}" alt="${slot[2]}" style="width:100%;height:100%;object-fit:cover;">`;
+    };
+    serverImg.src = '/images/' + slot[1];
   }
   document.getElementById('card-' + id).classList.remove('has-image');
   document.getElementById('reset-' + id).style.display = 'none';
   const status = document.getElementById('status-' + id);
   status.textContent = '原始';
   status.className = 'img-status orig';
+}
+
+async function restoreUploadedImages() {
+  await imageDB.init();
+  for (const slot of IMAGE_SLOTS) {
+    const dataUrl = await imageDB.get(slot[0]);
+    if (dataUrl) {
+      // Restore to memory
+      uploadedImages[slot[0]] = {
+        dataUrl: dataUrl,
+        blob: null, // blob can't be persisted, will be regenerated from dataUrl when needed
+        isNew: true
+      };
+      // Restore UI
+      const preview = document.getElementById('preview-' + slot[0]);
+      if (preview) {
+        preview.innerHTML = `<img loading="lazy" decoding="async" src="${dataUrl}" alt="${slot[2]}" style="width:100%;height:100%;object-fit:cover;">`;
+      }
+      const card = document.getElementById('card-' + slot[0]);
+      if (card) card.classList.add('has-image');
+      const resetBtn = document.getElementById('reset-' + slot[0]);
+      if (resetBtn) resetBtn.style.display = '';
+      const status = document.getElementById('status-' + slot[0]);
+      if (status) {
+        status.textContent = '已修改 (已恢复)';
+        status.className = 'img-status new';
+      }
+    }
+  }
 }
 
 // ============================================================
@@ -991,8 +1091,9 @@ async function generateZip() {
       log(`  🔄 ${slot[2]} 正在生成多版本..`, 'info');
 
       try {
-        // Original JPG
-        zip.file('images/' + slot[1], imgData.blob);
+        // Always regenerate JPG through canvas to ensure correct format & size
+        const jpg = await resizeImage(imgData.dataUrl, slot[3], slot[4], 'jpg', 0.85);
+        zip.file('images/' + slot[1], jpg.blob);
 
         // Generate WebP version
         const webp = await resizeImage(imgData.dataUrl, slot[3], slot[4], 'webp', 0.82);
@@ -1012,9 +1113,6 @@ async function generateZip() {
 
           log(`    768w + 1280w + 全尺寸已生成`, 'ok');
         } else {
-          // Non-responsive: also regenerate JPG through canvas for consistency
-          const jpg = await resizeImage(imgData.dataUrl, slot[3], slot[4], 'jpg', 0.85);
-          zip.file('images/' + slot[1], jpg.blob);
           log(`    WebP 版本已生成`, 'ok');
         }
       } catch (e) {

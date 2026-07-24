@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>Graceful International —缃戠珯绠＄悊鍚庡彴</title>
+<title>Graceful International 网站管理后台</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 :root {
@@ -104,239 +104,239 @@ input[type="file"] { display:none; }
 </style>
 </head>
 <body>
-<!-- 鐧诲綍閬僵 -->
+<!-- 登录遮罩 -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
-    <h2>馃攼 绠＄悊鍚庡彴鐧诲綍</h2>
-    <p>璇疯緭鍏ョ鐞嗗瘑鐮佷互璁块棶缃戠珯鍚庡彴</p>
-    <input type="password" class="form-input" id="loginPassword" placeholder="璇疯緭鍏ュ瘑鐮? onkeydown="if(event.key==='Enter')doLogin()">
+    <h2>🔐 管理后台登录</h2>
+    <p>请输入管理密码以访问网站后台</p>
+    <input type="password" class="form-input" id="loginPassword" placeholder="请输入密码" onkeydown="if(event.key==='Enter')doLogin()">
     <div class="login-error" id="loginError"></div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:0.75rem;" onclick="doLogin()">鐧?褰?/button>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:0.75rem;" onclick="doLogin()">登录</button>
   </div>
 </div>
 
-<!-- 涓诲唴瀹癸紙鐧诲綍鍚庢樉绀猴級 -->
+<!-- 主内容（登录后显示） -->
 <div id="adminMain" style="display:none;">
 <div class="admin-header">
-  <h1>馃寪 Graceful International <span>缃戠珯绠＄悊鍚庡彴</span></h1>
+  <h1>🌐 Graceful International <span>网站管理后台</span></h1>
   <div class="header-actions">
-    <button class="btn btn-outline" onclick="previewSite()" title="鍦ㄦ柊绐楀彛棰勮缃戠珯">馃憗 棰勮缃戠珯</button>
-    <button class="btn btn-outline logout-btn" onclick="doLogout()" title="閫€鍑虹櫥褰?>馃毆 閫€鍑?/button>
-    <button class="btn btn-green" id="btnGenerate" onclick="generateZip()">馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇</button>
+    <button class="btn btn-outline" onclick="previewSite()" title="在新窗口预览网站">👁 预览网站</button>
+    <button class="btn btn-outline logout-btn" onclick="doLogout()" title="退出登录">🚪 退出</button>
+    <button class="btn btn-green" id="btnGenerate" onclick="generateZip()">📦 生成网站包并下载</button>
   </div>
 </div>
 
 <div class="admin-layout">
   <nav class="sidebar" id="sidebar">
-    <div class="sidebar-item active" data-tab="tab-images">馃柤 鍥剧墖绠＄悊</div>
-    <div class="sidebar-item" data-tab="tab-products">馃搵 浜у搧鍐呭</div>
-    <div class="sidebar-item" data-tab="tab-products-data">馃敡 浜у搧绠＄悊</div>
-    <div class="sidebar-item" data-tab="tab-company">馃彚 鍏徃淇℃伅</div>
-    <div class="sidebar-item" data-tab="tab-seo">馃攳 SEO璁剧疆</div>
-    <div class="sidebar-item" data-tab="tab-orders">馃搵 OEM璁㈠崟</div>
-    <div class="sidebar-item" data-tab="tab-custom-orders">馃洜 瀹氬埗璁㈠崟</div>
-    <div class="sidebar-item" data-tab="tab-export">馃摝 瀵煎嚭缃戠珯</div>
+    <div class="sidebar-item active" data-tab="tab-images">🖼 图片管理</div>
+    <div class="sidebar-item" data-tab="tab-products">📋 产品内容</div>
+    <div class="sidebar-item" data-tab="tab-products-data">🔧 产品管理</div>
+    <div class="sidebar-item" data-tab="tab-company">🏢 公司信息</div>
+    <div class="sidebar-item" data-tab="tab-seo">🔍 SEO设置</div>
+    <div class="sidebar-item" data-tab="tab-orders">📋 OEM订单</div>
+    <div class="sidebar-item" data-tab="tab-custom-orders">🛠 定制订单</div>
+    <div class="sidebar-item" data-tab="tab-export">📦 导出网站</div>
   </nav>
 
   <main class="content">
 
-    <!-- ====== TAB: 鍥剧墖绠＄悊 ====== -->
+    <!-- ====== TAB: 图片管理 ====== -->
     <div class="tab-content active" id="tab-images">
       <div class="card">
-        <div class="card-header"><span class="card-title">馃彔 棣栭〉 / 鍏充簬椤靛ぇ鍥?(1920脳800)</span></div>
+        <div class="card-header"><span class="card-title">🏠 首页 / 关于页大图 (1920×800)</span></div>
         <div class="img-grid" id="imgHeroGrid"></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">馃彮 宸ュ巶鍥剧墖 (1200脳800)</span></div>
+        <div class="card-header"><span class="card-title">🏭 工厂图片 (1200×800)</span></div>
         <div class="img-grid" id="imgFactoryGrid"></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">馃摝 浜у搧鍥剧墖 (800脳800)</span></div>
+        <div class="card-header"><span class="card-title">📦 产品图片 (800×800)</span></div>
         <div class="img-grid" id="imgProductGrid"></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">馃摐 璇佷功鍥剧墖 (600脳800)</span></div>
+        <div class="card-header"><span class="card-title">📜 证书图片 (600×800)</span></div>
         <div class="img-grid" id="imgCertGrid"></div>
       </div>
     </div>
 
-    <!-- ====== TAB: 浜у搧鍐呭 ====== -->
+    <!-- ====== TAB: 产品内容 ====== -->
     <div class="tab-content" id="tab-products">
       <div class="card">
-        <div class="card-header"><span class="card-title">馃寪 璇█鍒囨崲</span></div>
+        <div class="card-header"><span class="card-title">🌐 语言切换</span></div>
         <div class="lang-tabs">
           <button class="lang-tab active" data-lang="en" onclick="switchProductLang('en')">English</button>
           <button class="lang-tab" data-lang="zh" onclick="switchProductLang('zh')">中文</button>
         </div>
-        <p style="font-size:0.8rem;color:var(--text2);">褰撳墠缂栬緫璇█锛?strong id="currentLangLabel">English</strong></p>
+        <p style="font-size:0.8rem;color:var(--text2);">当前编辑语言：<strong id="currentLangLabel">English</strong></p>
       </div>
 
       <!-- Product 1: Cotton Pads -->
       <div class="card">
-        <div class="card-header"><span class="card-title">浜у搧涓€锛氫翰鑲ゆ鍗敓宸?/ Cotton-Soft Sanitary Pads</span></div>
+        <div class="card-header"><span class="card-title">产品一：亲肤棉卫生巾 / Cotton-Soft Sanitary Pads</span></div>
         <div class="text-grid">
           <div class="text-pair" data-key-en="product_cotton_full" data-key-zh="product_cotton_full">
-            <div class="lang-label"><span class="lang-flag lang-en"></span> English —浜у搧鍚嶇О</div>
+            <div class="lang-label"><span class="lang-flag lang-en"></span> English — 产品名称</div>
             <input class="form-input lang-en" value="Cotton-Soft Sanitary Pads">
           </div>
           <div class="text-pair" data-key-en="product_cotton_full">
-            <div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 —浜у搧鍚嶇О</div>
-            <input class="form-input lang-zh" value="浜茶偆妫夊崼鐢熷肪">
+            <div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 — 产品名称</div>
+            <input class="form-input lang-zh" value="亲肤棉卫生巾">
           </div>
         </div>
         <div class="text-grid">
           <div class="text-pair">
-            <div class="lang-label"><span class="lang-flag lang-en"></span> English —浜у搧鎻忚堪</div>
+            <div class="lang-label"><span class="lang-flag lang-en"></span> English — 产品描述</div>
             <textarea class="form-textarea lang-en" data-key-en="product_cotton_desc">Ultra-thin 0.1cm design with premium cotton surface for ultimate comfort. Breathable back sheet with rapid absorption core. Available in multiple sizes and absorbency levels.</textarea>
           </div>
           <div class="text-pair">
-            <div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 —浜у搧鎻忚堪</div>
-            <textarea class="form-textarea lang-zh" data-key-zh="product_cotton_desc">瓒呰杽0.1cm璁捐锛屼紭璐ㄦ鏌旇〃灞傚甫鏉ユ瀬鑷磋垝閫備綋楠屻€傞€忔皵搴曡啘閰嶅悎鐬惛鑺綋锛屽绉嶅昂瀵稿拰鍚告敹鍔涘彲閫夈€?/textarea>
+            <div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 — 产品描述</div>
+            <textarea class="form-textarea lang-zh" data-key-zh="product_cotton_desc">超薄0.1cm设计，优质棉柔表层带来极致舒适体验。透气底膜配合快速吸收芯体，多种尺寸和吸收力可选</textarea>
           </div>
         </div>
         <div class="specs-grid">
-          <div class="form-group"><div class="form-label">瑙勬牸 —闀垮害</div><input class="form-input lang-en" data-key-en="spec_length_val" value="180mm / 240mm / 280mm / 320mm / 350mm"><input class="form-input lang-zh" data-key-zh="spec_length_val" value="180mm / 240mm / 280mm / 320mm / 350mm" style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —鍚告敹鍔?/div><input class="form-input lang-en" data-key-en="spec_absorption_val" value="Light / Regular / Super / Overnight"><input class="form-input lang-zh" data-key-zh="spec_absorption_val" value="鏃ョ敤 / 閲忓 / 瓒呴噺 / 澶滅敤" style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —鍖呰</div><input class="form-input lang-en" data-key-en="spec_packaging_val" value="Custom OEM packaging"><input class="form-input lang-zh" data-key-zh="spec_packaging_val" value="OEM瀹氬埗鍖呰" style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —MOQ</div><input class="form-input lang-en" data-key-en="spec_moq_val" value="50,000 pcs per SKU"><input class="form-input lang-zh" data-key-zh="spec_moq_val" value="姣廠KU 50,000鐗? style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —浜ゆ湡</div><input class="form-input lang-en" data-key-en="spec_lead_val" value="25-35 days"><input class="form-input lang-zh" data-key-zh="spec_lead_val" value="25-35澶? style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —璁よ瘉</div><input class="form-input lang-en" data-key-en="spec_cert_val" value="ISO 9001, ISO 13485, CE"><input class="form-input lang-zh" data-key-zh="spec_cert_val" value="ISO 9001, ISO 13485, CE" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 长度</div><input class="form-input lang-en" data-key-en="spec_length_val" value="180mm / 240mm / 280mm / 320mm / 350mm"><input class="form-input lang-zh" data-key-zh="spec_length_val" value="180mm / 240mm / 280mm / 320mm / 350mm" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 吸收力</div><input class="form-input lang-en" data-key-en="spec_absorption_val" value="Light / Regular / Super / Overnight"><input class="form-input lang-zh" data-key-zh="spec_absorption_val" value="日用 / 量多 / 超量 / 夜用" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 包装</div><input class="form-input lang-en" data-key-en="spec_packaging_val" value="Custom OEM packaging"><input class="form-input lang-zh" data-key-zh="spec_packaging_val" value="OEM定制包装" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — MOQ</div><input class="form-input lang-en" data-key-en="spec_moq_val" value="50,000片 pcs per SKU"><input class="form-input lang-zh" data-key-zh="spec_moq_val" value="每SKU 50,000片" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 交期</div><input class="form-input lang-en" data-key-en="spec_lead_val" value="25-35天 days"><input class="form-input lang-zh" data-key-zh="spec_lead_val" value="25-35天" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 认证</div><input class="form-input lang-en" data-key-en="spec_cert_val" value="ISO 9001, ISO 13485, CE"><input class="form-input lang-zh" data-key-zh="spec_cert_val" value="ISO 9001, ISO 13485, CE" style="margin-top:0.3rem;font-size:0.8rem"></div>
         </div>
       </div>
 
       <!-- Product 2: Probiotic Pads -->
       <div class="card">
-        <div class="card-header"><span class="card-title">浜у搧浜岋細鐩婄敓鑿屽崼鐢熷肪 / Probiotic Sanitary Pads</span></div>
+        <div class="card-header"><span class="card-title">产品二：益生菌卫生巾 / Probiotic Sanitary Pads</span></div>
         <div class="text-grid">
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English —浜у搧鍚嶇О</div><input class="form-input lang-en" data-key-en="product_probiotic_full" value="Probiotic Sanitary Pads"></div>
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 —浜у搧鍚嶇О</div><input class="form-input lang-zh" data-key-zh="product_probiotic_full" value="鐩婄敓鑿屽崼鐢熷肪"></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English — 产品名称</div><input class="form-input lang-en" data-key-en="product_probiotic_full" value="Probiotic Sanitary Pads"></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 — 产品名称</div><input class="form-input lang-zh" data-key-zh="product_probiotic_full" value="益生菌卫生巾"></div>
         </div>
         <div class="text-grid">
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English —浜у搧鎻忚堪</div><textarea class="form-textarea lang-en" data-key-en="product_probiotic_desc">Advanced formulation with lactobacillus probiotics to maintain natural pH balance. 99.9% antibacterial surface layer. Dermatologically tested for sensitive skin.</textarea></div>
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 —浜у搧鎻忚堪</div><textarea class="form-textarea lang-zh" data-key-zh="product_probiotic_desc">鍒涙柊涔抽吀鑿岄厤鏂癸紝缁存寔绉佸澶╃劧寮遍吀鐜銆?9.9%鎶戣弻琛ㄥ眰锛岀粡鐨偆绉戞祴璇曪紝閫傚悎鏁忔劅鑲岃偆銆?/textarea></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English — 产品描述</div><textarea class="form-textarea lang-en" data-key-en="product_probiotic_desc">Advanced formulation with lactobacillus probiotics to maintain natural pH balance. 99.9% antibacterial surface layer. Dermatologically tested for sensitive skin.</textarea></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 — 产品描述</div><textarea class="form-textarea lang-zh" data-key-zh="product_probiotic_desc">创新乳酸菌配方，维持私密天然弱酸环境。99.9%抑菌表层，经皮肤科测试，适合敏感肌肤</textarea></div>
         </div>
       </div>
 
       <!-- Product 3: Adult Diapers -->
       <div class="card">
-        <div class="card-header"><span class="card-title">浜у搧涓夛細閫熷惛鍨嬫垚浜虹焊灏胯￥ / Super-Absorbent Adult Diapers</span></div>
+        <div class="card-header"><span class="card-title">产品三：速吸型成人纸尿裤 / Super-Absorbent Adult Diapers</span></div>
         <div class="text-grid">
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English —浜у搧鍚嶇О</div><input class="form-input lang-en" data-key-en="product_adult_full" value="Super-Absorbent Adult Diapers"></div>
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 —浜у搧鍚嶇О</div><input class="form-input lang-zh" data-key-zh="product_adult_full" value="閫熷惛鍨嬫垚浜虹焊灏胯￥"></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English — 产品名称</div><input class="form-input lang-en" data-key-en="product_adult_full" value="Super-Absorbent Adult Diapers"></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 — 产品名称</div><input class="form-input lang-zh" data-key-zh="product_adult_full" value="速吸型成人纸尿裤"></div>
         </div>
         <div class="text-grid">
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English —浜у搧鎻忚堪</div><textarea class="form-textarea lang-en" data-key-en="product_adult_desc">Advanced super-absorbent polymer core for rapid 3-second absorption. 360掳 leak guard with odor control technology. Soft, breathable materials for extended wear comfort.</textarea></div>
-          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 —浜у搧鎻忚堪</div><textarea class="form-textarea lang-zh" data-key-zh="product_adult_desc">鍏堣繘楂樺惛鏀跺垎瀛愯姱浣擄紝瀹炵幇3绉掔灛鍚搞€?60掳闃叉紡淇濇姢閰嶅悎闄よ嚟鎶戝懗鎶€鏈€傛煍杞€忔皵鏉愭枡锛岄暱鏃堕棿绌挎埓渚濈劧鑸掗€傘€?/textarea></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-en"></span> English — 产品描述</div><textarea class="form-textarea lang-en" data-key-en="product_adult_desc">Advanced super-absorbent polymer core for rapid 3-second absorption. 360° leak guard with odor control technology. Soft, breathable materials for extended wear comfort.</textarea></div>
+          <div class="text-pair"><div class="lang-label"><span class="lang-flag lang-zh"></span> 中文 — 产品描述</div><textarea class="form-textarea lang-zh" data-key-zh="product_adult_desc">先进高分子吸收芯体，实现3秒瞬吸。360°防漏保护配合除臭抑味技术。最柔软透气材料，长时间穿戴依然舒适</textarea></div>
         </div>
         <div class="specs-grid">
-          <div class="form-group"><div class="form-label">瑙勬牸 —灏哄</div><input class="form-input lang-en" data-key-en="spec_sizes_val" value="S / M / L / XL"><input class="form-input lang-zh" data-key-zh="spec_sizes_val" value="S / M / L / XL" style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —鑵板洿</div><input class="form-input lang-en" data-key-en="spec_waist_val" value="60cm - 140cm"><input class="form-input lang-zh" data-key-zh="spec_waist_val" value="60cm - 140cm" style="margin-top:0.3rem;font-size:0.8rem"></div>
-          <div class="form-group"><div class="form-label">瑙勬牸 —MOQ</div><input class="form-input lang-en" data-key-en="spec_moq_adult_val" value="30,000 pcs per SKU"><input class="form-input lang-zh" data-key-zh="spec_moq_adult_val" value="姣廠KU 30,000鐗? style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 尺寸</div><input class="form-input lang-en" data-key-en="spec_sizes_val" value="S / M / L / XL"><input class="form-input lang-zh" data-key-zh="spec_sizes_val" value="S / M / L / XL" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — 腰围</div><input class="form-input lang-en" data-key-en="spec_waist_val" value="60cm - 140cm"><input class="form-input lang-zh" data-key-zh="spec_waist_val" value="60cm - 140cm" style="margin-top:0.3rem;font-size:0.8rem"></div>
+          <div class="form-group"><div class="form-label">规格 — MOQ</div><input class="form-input lang-en" data-key-en="spec_moq_adult_val" value="30,000片 pcs per SKU"><input class="form-input lang-zh" data-key-zh="spec_moq_adult_val" value="每SKU 30,000片" style="margin-top:0.3rem;font-size:0.8rem"></div>
         </div>
       </div>
     </div>
 
-    <!-- ====== TAB: 浜у搧绠＄悊 ====== -->
+    <!-- ====== TAB: 产品管理 ====== -->
     <div class="tab-content" id="tab-products-data">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">馃敡 浜у搧鏁版嵁绠＄悊</span>
-          <button class="btn btn-outline" onclick="loadProductData()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">馃攧 浠庣綉绔欏姞杞?/button>
+          <span class="card-title">🔧 产品数据管理</span>
+          <button class="btn btn-outline" onclick="loadProductData()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">🔄 从网站加载</button>
         </div>
         <p style="color:var(--text2);margin-bottom:1rem;font-size:0.85rem;">
-          绠＄悊 product.html 涓婂睍绀虹殑浜у搧鍝佺被鍜屼骇鍝佷俊鎭€備慨鏀瑰悗鐐瑰嚮涓婃柟"鐢熸垚缃戠珯鍖?鍗冲彲瀵煎嚭銆?        </p>
+          管理 product.html 上展示的产品品类和产品信息。修改后点击上方"生成网站"即可导出到 product.html        </p>
         <div id="productDataContainer">
-          <div class="empty-state">鐐瑰嚮"浠庣綉绔欏姞杞?璇诲彇褰撳墠浜у搧鏁版嵁</div>
+          <div class="empty-state">点击"从网站加载读取当前产品数据</div>
         </div>
       </div>
     </div>
 
-    <!-- ====== TAB: 鍏徃淇℃伅 ====== -->
+    <!-- ====== TAB: 公司信息 ====== -->
     <div class="tab-content" id="tab-company">
       <div class="card">
-        <div class="card-header"><span class="card-title">馃寪 璇█鍒囨崲</span></div>
+        <div class="card-header"><span class="card-title">🌐 语言切换</span></div>
         <div class="lang-tabs">
           <button class="lang-tab active" data-lang="en" onclick="switchCompanyLang('en')">English</button>
           <button class="lang-tab" data-lang="zh" onclick="switchCompanyLang('zh')">中文</button>
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">馃摓 鑱旂郴鏂瑰紡</span></div>
+        <div class="card-header"><span class="card-title">📞 联系方式</span></div>
         <div class="specs-grid">
-          <div class="form-group"><div class="form-label">閭</div><input class="form-input" id="companyEmail" value="fiona@gracehygi.com"></div>
+          <div class="form-group"><div class="form-label">邮箱</div><input class="form-input" id="companyEmail" value="fiona@gracehygi.com"></div>
           <div class="form-group"><div class="form-label">WhatsApp</div><input class="form-input" id="companyWhatsapp" value="+86 19553316597"></div>
-          <div class="form-group"><div class="form-label">宸ュ巶鍦板潃 (EN)</div><input class="form-input" id="companyAddressEn" value="Weifang, Shandong Province, China"></div>
-          <div class="form-group"><div class="form-label">宸ュ巶鍦板潃 (ZH)</div><input class="form-input" id="companyAddressZh" value="涓浗灞变笢鐪佹綅鍧婂競"></div>
+          <div class="form-group"><div class="form-label">工厂地址 (EN)</div><input class="form-input" id="companyAddressEn" value="Weifang, Shandong Province, China"></div>
+          <div class="form-group"><div class="form-label">工厂地址 (ZH)</div><input class="form-input" id="companyAddressZh" value="中国山东省潍坊市"></div>
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">馃摑 鍏充簬鎴戜滑 —English</span></div>
-        <div class="form-group"><div class="form-label">娈佃惤涓€</div><textarea class="form-textarea lang-en" data-key-en="about_p1" style="min-height:80px">Founded in 2018 and headquartered in Hong Kong, Graceful International (HK) Limited is a professional manufacturer of feminine hygiene and adult incontinence products under the brand "Yezhimeng". Our state-of-the-art production facility is located in Weifang, Shandong Province, spanning 400 acres with 14 fully automated production lines.</textarea></div>
-        <div class="form-group"><div class="form-label">娈佃惤浜?/div><textarea class="form-textarea lang-en" data-key-en="about_p2" style="min-height:80px">With a dedicated team of 300 professionals —including a 30-person quality control department —we are committed to delivering products that meet the highest international standards. Our dual ISO 9001 and ISO 13485 certifications reflect our unwavering commitment to quality and safety.</textarea></div>
-        <div class="form-group"><div class="form-label">娈佃惤涓?/div><textarea class="form-textarea lang-en" data-key-en="about_p3" style="min-height:80px">We serve as a trusted OEM/ODM partner for brands, wholesalers, supermarket chains, and elderly care institutions across Europe, America, and Korea. From product development to packaging design, we provide end-to-end manufacturing solutions tailored to your market needs.</textarea></div>
+        <div class="card-header"><span class="card-title">📝 关于我们 — English</span></div>
+        <div class="form-group"><div class="form-label">段落一</div><textarea class="form-textarea lang-en" data-key-en="about_p1" style="min-height:80px">Founded in 2018 and headquartered in Hong Kong, Graceful International (HK) Limited is a professional manufacturer of feminine hygiene and adult incontinence products under the brand "Yezhimeng". Our state-of-the-art production facility is located in Weifang, Shandong Province, spanning 400 acres with 14 fully automated production lines.</textarea></div>
+        <div class="form-group"><div class="form-label">段落二</div><textarea class="form-textarea lang-en" data-key-en="about_p2" style="min-height:80px">With a dedicated team of 300 professionals including a 30-person quality control department we are committed to delivering products that meet the highest international standards. Our dual ISO 9001 and ISO 13485 certifications reflect our unwavering commitment to quality and safety.</textarea></div>
+        <div class="form-group"><div class="form-label">段落三</div><textarea class="form-textarea lang-en" data-key-en="about_p3" style="min-height:80px">We serve as a trusted OEM/ODM partner for brands, wholesalers, supermarket chains, and elderly care institutions across Europe, America, and Korea. From product development to packaging design, we provide end-to-end manufacturing solutions tailored to your market needs.</textarea></div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">馃摑 鍏充簬鎴戜滑 —中文</span></div>
-        <div class="form-group"><div class="form-label">娈佃惤涓€</div><textarea class="form-textarea lang-zh" data-key-zh="about_p1" style="min-height:80px">娴峰渤闆嗗洟锛堥娓級鑲′唤鏈夐檺鍏徃鎴愮珛浜?018骞达紝鎬婚儴浣嶄簬棣欐腐锛屾槸涓撲笟浠庝簨濂虫€у崼鐢熺敤鍝佸拰鎴愪汉澶辩鎶ょ悊鐢ㄥ搧鍒堕€犵殑浼佷笟锛屾棗涓嬫嫢鏈夊搧鐗?Yezhimeng"銆傛垜浠殑鐜颁唬鍖栫敓浜у熀鍦板潗钀戒簬灞变笢鐪佹綅鍧婂競锛屽崰鍦?00浜╋紝閰嶅14鏉″叏鑷姩鐢熶骇绾裤€?/textarea></div>
-        <div class="form-group"><div class="form-label">娈佃惤浜?/div><textarea class="form-textarea lang-zh" data-key-zh="about_p2" style="min-height:80px">鎴戜滑鎷ユ湁300鍚嶄笓涓氬憳宸モ€斺€斿叾涓寘鎷?0浜虹殑璐ㄩ噺鎺у埗鍥㈤槦鈥斺€旇嚧鍔涗簬浜や粯绗﹀悎鏈€楂樺浗闄呮爣鍑嗙殑浜у搧銆侷SO 9001鍜孖SO 13485鍙岃璇佷綋鐜颁簡鎴戜滑瀵瑰搧璐ㄥ拰瀹夊叏鐨勫潥瀹氭壙璇恒€?/textarea></div>
-        <div class="form-group"><div class="form-label">娈佃惤涓?/div><textarea class="form-textarea lang-zh" data-key-zh="about_p3" style="min-height:80px">鎴戜滑涓烘娲层€佺編娲插拰闊╁浗鐨勫搧鐗屽晢銆佹壒鍙戝晢銆佽繛閿佽秴甯傚拰鍏昏€佹満鏋勬彁渚涘€煎緱淇¤禆鐨凮EM/ODM鏈嶅姟銆備粠浜у搧寮€鍙戝埌鍖呰璁捐锛屾垜浠负鎮ㄧ殑甯傚満闇€姹傛彁渚涚鍒扮鐨勫埗閫犺В鍐虫柟妗堛€?/textarea></div>
+        <div class="card-header"><span class="card-title">📝 关于我们 — 中文</span></div>
+        <div class="form-group"><div class="form-label">段落一</div><textarea class="form-textarea lang-zh" data-key-zh="about_p1" style="min-height:80px">格瑞丝国际（香港）股份有限公司成立于2018年，总部位于香港，是专业从事女性卫生用品和成人失禁护理用品制造的企业，旗下拥有品牌"Yezhimeng"。我们的现代化生产基地坐落于山东省潍坊市，占地400亩，配备14条全自动生产线</textarea></div>
+        <div class="form-group"><div class="form-label">段落二</div><textarea class="form-textarea lang-zh" data-key-zh="about_p2" style="min-height:80px">我们拥有300名专业员工——其中包括30人的质量控制团队——致力于交付符合最高国际标准的产品。ISO 9001和ISO 13485双认证体现了我们对品质和安全的坚定承诺</textarea></div>
+        <div class="form-group"><div class="form-label">段落三</div><textarea class="form-textarea lang-zh" data-key-zh="about_p3" style="min-height:80px">我们为欧洲、美洲和韩国的品牌商、批发商、连锁超市和养老机构提供值得信赖的OEM/ODM服务。从产品开发到包装设计，我们为您的市场需求提供端到端的制造解决方案</textarea></div>
       </div>
     </div>
 
     <!-- ====== TAB: SEO ====== -->
     <div class="tab-content" id="tab-seo">
       <div class="card">
-        <div class="card-header"><span class="card-title">馃攳 鍚勯〉闈?SEO 鏍囬涓庢弿杩?/span></div>
-        <p style="font-size:0.8rem;color:var(--text2);margin-bottom:1rem;">淇敼鍚庣綉绔欎細鑷姩鏇存柊 &lt;title&gt; 鍜?meta description銆?/p>
+        <div class="card-header"><span class="card-title">🔍 各页面 SEO 标题与描述</span></div>
+        <p style="font-size:0.8rem;color:var(--text2);margin-bottom:1rem;">修改后网站会自动更新 &lt;title&gt; 和 meta description。</p>
         <div id="seoFields"></div>
       </div>
     </div>
 
-    <!-- ====== TAB: OEM璁㈠崟 ====== -->
+    <!-- ====== TAB: OEM订单 ====== -->
     <div class="tab-content" id="tab-orders">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">馃搵 OEM 瀹氬埗璁㈠崟鍒楄〃</span>
+          <span class="card-title">📋 OEM 定制订单</span>
           <div style="display:flex;gap:0.5rem;align-items:center;">
             <span style="font-size:0.8rem;color:var(--text2);" id="orderSource"></span>
-            <button class="btn btn-outline" onclick="refreshOrders()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">馃攧 鍒锋柊</button>
+            <button class="btn btn-outline" onclick="refreshOrders()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">🔄 刷新</button>
           </div>
         </div>
         <div id="ordersContainer">
-          <div class="empty-state">鍔犺浇涓?..</div>
+          <div class="empty-state">加载中...</div>
         </div>
       </div>
     </div>
 
-    <!-- ====== TAB: 瀹氬埗璁㈠崟 ====== -->
+    <!-- ====== TAB: 定制订单 ====== -->
     <div class="tab-content" id="tab-custom-orders">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">馃洜 Custom 瀹氬埗璁㈠崟鍒楄〃</span>
+          <span class="card-title">🛠 Custom 定制订单</span>
           <div style="display:flex;gap:0.5rem;align-items:center;">
             <span style="font-size:0.8rem;color:var(--text2);" id="customOrderSource"></span>
-            <button class="btn btn-outline" onclick="refreshCustomOrders()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">馃攧 鍒锋柊</button>
+            <button class="btn btn-outline" onclick="refreshCustomOrders()" style="font-size:0.8rem;padding:0.35rem 0.75rem;">🔄 刷新</button>
           </div>
         </div>
         <div id="customOrdersContainer">
-          <div class="empty-state">鐐瑰嚮"鍒锋柊"鍔犺浇璁㈠崟...</div>
+          <div class="empty-state">点击"刷新"加载订单...</div>
         </div>
       </div>
     </div>
 
-    <!-- ====== TAB: 瀵煎嚭缃戠珯 ====== -->
+    <!-- ====== TAB: 导出网站 ====== -->
     <div class="tab-content" id="tab-export">
       <div class="card">
-        <div class="card-header"><span class="card-title">馃摝 鐢熸垚缃戠珯鍖?/span></div>
+        <div class="card-header"><span class="card-title">📦 生成网站</span></div>
         <p style="color:var(--text2);margin-bottom:1.25rem;font-size:0.9rem;line-height:1.6;">
-          鐐瑰嚮涓嬫柟鎸夐挳锛岀郴缁熶細璇诲彇褰撳墠绾夸笂鎵€鏈夋枃浠躲€佸簲鐢ㄤ綘淇敼鐨勫浘鐗囧拰鏂囧瓧锛?br>
-          鎵撳寘鎴?<code>gracehygi-website.zip</code> 鑷姩涓嬭浇鍒颁綘鐨勭數鑴戙€?        </p>
+          点击下方按钮，系统会读取当前线上所有文件件、应用你修改的图片和文字，<br>
+          打包成 <code>gracehygi-website.zip</code> 并下载到你的电脑。        </p>
         <p style="color:var(--text2);margin-bottom:1.25rem;font-size:0.85rem;">
-          <strong>涓嬭浇鍚庢搷浣滐細</strong>鐧诲綍 Cloudflare Pages 鈫?閫夋嫨浣犵殑椤圭洰 鈫?涓婁紶鏂扮殑 zip 鏂囦欢 鈫?绛夊緟閮ㄧ讲瀹屾垚銆?        </p>
-        <button class="btn btn-green" id="btnGenerate2" onclick="generateZip()" style="font-size:1rem;padding:0.75rem 2rem;">馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇</button>
+          <strong>下载后操作：</strong>登录 Cloudflare Pages → 选择你的项目 → 上传新的 zip 文件 → 等待部署完成。        </p>
+        <button class="btn btn-green" id="btnGenerate2" onclick="generateZip()" style="font-size:1rem;padding:0.75rem 2rem;">📦 生成网站包并下载</button>
         <div class="progress-wrap" id="progressWrap" style="display:none;">
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <div class="progress-text" id="progressText">鍑嗗涓?..</div>
+          <div class="progress-text" id="progressText">准备中...</div>
         </div>
         <div class="log-area" id="logArea" style="display:none;"></div>
         <div class="file-list" id="fileList" style="margin-top:1rem;"></div>
@@ -352,20 +352,20 @@ input[type="file"] { display:none; }
 // ============================================================
 const IMAGE_SLOTS = [
   // [id, fileName, label, width, height, category, responsive]
-  ['hero-factory', 'hero-factory.jpg', '棣栭〉澶у浘 (Hero)', 1920, 800, 'hero', true],
-  ['factory-line', 'factory-line.jpg', '鐢熶骇绾?, 1200, 800, 'factory', false],
-  ['factory-raw-materials', 'factory-raw-materials.jpg', '鍘熸潗鏂?, 1200, 800, 'factory', false],
-  ['factory-lab', 'factory-lab.jpg', '瀹為獙瀹?, 1200, 800, 'factory', false],
-  ['factory-warehouse', 'factory-warehouse.jpg', '浠撳偍', 1200, 800, 'factory', false],
-  ['product-organic-cotton', 'product-organic-cotton.jpg', '鏈夋満妫夊崼鐢熷肪', 800, 800, 'product', false],
-  ['product-pure-cotton', 'product-pure-cotton.jpg', '绾鍗敓宸?, 800, 800, 'product', false],
-  ['product-bamboo-fiber', 'product-bamboo-fiber.jpg', '绔圭氦缁村崼鐢熷肪', 800, 800, 'product', false],
-  ['product-adult-diaper-package', 'product-adult-diaper-package.jpg', '鎴愪汉绾稿翱瑁?, 800, 800, 'product', false],
-  ['cert-fda', 'cert-fda.jpg', 'FDA 璇佷功', 600, 800, 'cert', false],
-  ['cert-ecm', 'cert-ecm.jpg', 'ECM CE 璇佷功', 600, 800, 'cert', false],
-  ['cert-iso9001', 'cert-iso9001.jpg', 'ISO 9001 璇佷功', 600, 800, 'cert', false],
-  ['cert-compostable', 'cert-compostable.jpg', '鍙爢鑲ヨ瘉涔?, 600, 800, 'cert', false],
-  ['cert-eu', 'cert-eu.jpg', 'EU 鍚堟牸璇佷功', 600, 800, 'cert', false],
+  ['hero-factory', 'hero-factory.jpg', '首页大图 (Hero)', 1920, 800, 'hero', true],
+  ['factory-line', 'factory-line.jpg', '生产线, 1200, 800, 'factory', false],
+  ['factory-raw-materials', 'factory-raw-materials.jpg', '原材料, 1200, 800, 'factory', false],
+  ['factory-lab', 'factory-lab.jpg', '实验室, 1200, 800, 'factory', false],
+  ['factory-warehouse', 'factory-warehouse.jpg', '仓储', 1200, 800, 'factory', false],
+  ['product-organic-cotton', 'product-organic-cotton.jpg', '有机棉卫生巾', 800, 800, 'product', false],
+  ['product-pure-cotton', 'product-pure-cotton.jpg', '纯棉卫生巾', 800, 800, 'product', false],
+  ['product-bamboo-fiber', 'product-bamboo-fiber.jpg', '竹纤维卫生巾', 800, 800, 'product', false],
+  ['product-adult-diaper-package', 'product-adult-diaper-package.jpg', '成人纸尿裤包装, 800, 800, 'product', false],
+  ['cert-fda', 'cert-fda.jpg', 'FDA 证书', 600, 800, 'cert', false],
+  ['cert-ecm', 'cert-ecm.jpg', 'ECM CE 证书', 600, 800, 'cert', false],
+  ['cert-iso9001', 'cert-iso9001.jpg', 'ISO 9001 证书', 600, 800, 'cert', false],
+  ['cert-compostable', 'cert-compostable.jpg', '可堆肥证书', 600, 800, 'cert', false],
+  ['cert-eu', 'cert-eu.jpg', 'EU 合格证书', 600, 800, 'cert', false],
 ];
 
 // Stores uploaded image data: { id: { dataUrl, blob, isNew } }
@@ -407,20 +407,20 @@ function buildImageCards() {
     card.id = 'card-' + slot[0];
     card.innerHTML = `
       <div class="img-preview" id="preview-${slot[0]}">
-        <div>馃摲 ${slot[2]}<br><small>${slot[3]}脳${slot[4]}</small></div>
+        <div>📷 ${slot[2]}<br><small>${slot[3]}×${slot[4]}</small></div>
       </div>
       <div class="img-info">
         <div>
           <div class="img-label">${slot[2]}</div>
-          <div style="font-size:0.7rem;color:#999;">${slot[1]} 路 ${slot[3]}脳${slot[4]}</div>
+          <div style="font-size:0.7rem;color:#999;">${slot[1]} · ${slot[3]}×${slot[4]}</div>
         </div>
         <div class="img-actions">
-          <button onclick="uploadImage('${slot[0]}')">馃摛 涓婁紶</button>
-          <button class="btn-del" onclick="resetImage('${slot[0]}')" style="display:none" id="reset-${slot[0]}">鉁?閲嶇疆</button>
+          <button onclick="uploadImage('${slot[0]}')">📤 上传</button>
+          <button class="btn-del" onclick="resetImage('${slot[0]}')" style="display:none" id="reset-${slot[0]}">?重置</button>
         </div>
       </div>
       <input type="file" id="file-${slot[0]}" accept="image/*" onchange="handleImageUpload('${slot[0]}', this)" style="display:none">
-      <span class="img-status orig" style="position:absolute;top:8px;right:8px;" id="status-${slot[0]}">鍘熷</span>
+      <span class="img-status orig" style="position:absolute;top:8px;right:8px;" id="status-${slot[0]}">原始</span>
     `;
     grid.appendChild(card);
   });
@@ -451,7 +451,7 @@ function handleImageUpload(id, input) {
     document.getElementById('card-' + id).classList.add('has-image');
     document.getElementById('reset-' + id).style.display = '';
     const status = document.getElementById('status-' + id);
-    status.textContent = '宸蹭慨鏀?;
+    status.textContent = '已修改;
     status.className = 'img-status new';
 
     input.value = '';
@@ -464,12 +464,12 @@ function resetImage(id) {
   const preview = document.getElementById('preview-' + id);
   const slot = IMAGE_SLOTS.find(s => s[0] === id);
   if (slot) {
-    preview.innerHTML = `<div>馃摲 ${slot[2]}<br><small>${slot[3]}脳${slot[4]}</small></div>`;
+    preview.innerHTML = `<div>📷 ${slot[2]}<br><small>${slot[3]}×${slot[4]}</small></div>`;
   }
   document.getElementById('card-' + id).classList.remove('has-image');
   document.getElementById('reset-' + id).style.display = 'none';
   const status = document.getElementById('status-' + id);
-  status.textContent = '鍘熷';
+  status.textContent = '原始';
   status.className = 'img-status orig';
 }
 
@@ -509,14 +509,14 @@ let productDataEdited = null;
 
 async function loadProductData() {
   const container = document.getElementById('productDataContainer');
-  container.innerHTML = '<div class="empty-state">鍔犺浇涓?..</div>';
+  container.innerHTML = '<div class="empty-state">加载中...</div>';
 
   try {
     const resp = await fetch('/js/products-data.js');
     if (!resp.ok) {
       productDataEdited = getDefaultProductData();
       renderProductDataEditor(JSON.parse(productDataEdited));
-      showToast('鈿?鏈壘鍒颁骇鍝佹暟鎹枃浠讹紝宸插姞杞介粯璁ゆ暟鎹?, 'error');
+      showToast('?有到产品数捖件，已加载默认数?, 'error');
       return;
     }
     let text = await resp.text();
@@ -525,23 +525,23 @@ async function loadProductData() {
     productDataEdited = text;
     const data = JSON.parse(text);
     renderProductDataEditor(data);
-    showToast('鉁?浜у搧鏁版嵁宸插姞杞?, 'success');
+    showToast('产品数据已加载, 'success');
   } catch (err) {
-    container.innerHTML = '<div class="empty-state">鉂?鍔犺浇澶辫触: ' + err.message + '<br><button class="btn btn-outline" onclick="loadProductData()" style="margin-top:1rem;">閲嶈瘯</button></div>';
+    container.innerHTML = '<div class="empty-state">加载失败: ' + err.message + '<br><button class="btn btn-outline" onclick="loadProductData()" style="margin-top:1rem;">重试</button></div>';
   }
 }
 
 function getDefaultProductData() {
   return JSON.stringify({
     categories: [
-      { id: "sanitary-pads", name: "Sanitary Pads", icon: "馃尭", color: "rose",
+      { id: "sanitary-pads", name: "Sanitary Pads", icon: "🌸", color: "rose",
         products: [
           { id: "organic-cotton", name: "Organic Cotton Sanitary Pads", image: "product-organic-cotton", moq: "50,000pcs/size", certification: "ISO, CE", size: "150/190/240/285/305/350/410mm" },
           { id: "pure-cotton", name: "Pure Cotton Sanitary Pads", image: "product-pure-cotton", moq: "50,000pcs/size", certification: "ISO, CE", size: "150/190/240/285/305/350/410mm" },
           { id: "bamboo-fiber", name: "Bamboo Fiber Sanitary Pads", image: "product-bamboo-fiber", moq: "50,000pcs/size", certification: "ISO, CE", size: "150/190/240/285/305/350/410mm" }
         ]
       },
-      { id: "adult-diapers", name: "Adult Diapers", icon: "馃挋", color: "blue",
+      { id: "adult-diapers", name: "Adult Diapers", icon: "💙", color: "blue",
         products: [
           { id: "super-absorbent", name: "Super-Absorbent Adult Diapers", image: "product-adult-diaper-package", moq: "30,000pcs/size", certification: "ISO, CE", size: "S/M/L/XL" }
         ]
@@ -557,55 +557,55 @@ function renderProductDataEditor(data) {
   data.categories.forEach(function(cat, ci) {
     html += '<div class="card" style="margin-bottom:1rem;">';
     html += '<div class="card-header">';
-    html += '<span class="card-title">' + (cat.icon || '馃摝') + ' 鍝佺被 #' + (ci+1) + ' —' + esc(cat.name) + '</span>';
+    html += '<span class="card-title">' + (cat.icon || '📦') + ' 品类 #' + (ci+1) + ' ' + esc(cat.name) + '</span>';
     html += '<div>';
-    html += '<button class="btn btn-outline" onclick="addProduct(' + ci + ')" style="font-size:0.75rem;padding:0.3rem 0.7rem;margin-right:0.4rem;">+ 浜у搧</button>';
-    html += '<button class="btn btn-outline" onclick="deleteCategory(' + ci + ')" style="font-size:0.75rem;padding:0.3rem 0.7rem;color:#e74c3c;border-color:#fce4e4;">鉁?鍒犻櫎</button>';
+    html += '<button class="btn btn-outline" onclick="addProduct(' + ci + ')" style="font-size:0.75rem;padding:0.3rem 0.7rem;margin-right:0.4rem;">+ 产品</button>';
+    html += '<button class="btn btn-outline" onclick="deleteCategory(' + ci + ')" style="font-size:0.75rem;padding:0.3rem 0.7rem;color:#e74c3c;border-color:#fce4e4;">删除</button>';
     html += '</div>';
     html += '</div>';
 
     html += '<div class="specs-grid" style="margin-bottom:0.75rem;">';
-    html += '<div class="form-group"><div class="form-label">鍝佺被ID</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="id" value="' + esc(cat.id) + '"></div>';
-    html += '<div class="form-group"><div class="form-label">鍝佺被鍚嶇О</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="name" value="' + esc(cat.name) + '"></div>';
-    html += '<div class="form-group"><div class="form-label">鍥炬爣 Emoji</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="icon" value="' + esc(cat.icon || '') + '"></div>';
-    html += '<div class="form-group"><div class="form-label">棰滆壊</div><select class="form-input cat-field" data-cat="' + ci + '" data-field="color"><option value="rose"' + (cat.color==='rose'?' selected':'') + '>rose</option><option value="blue"' + (cat.color==='blue'?' selected':'') + '>blue</option></select></div>';
+    html += '<div class="form-group"><div class="form-label">品类ID</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="id" value="' + esc(cat.id) + '"></div>';
+    html += '<div class="form-group"><div class="form-label">品类名称</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="name" value="' + esc(cat.name) + '"></div>';
+    html += '<div class="form-group"><div class="form-label">图标 Emoji</div><input class="form-input cat-field" data-cat="' + ci + '" data-field="icon" value="' + esc(cat.icon || '') + '"></div>';
+    html += '<div class="form-group"><div class="form-label">颜色</div><select class="form-input cat-field" data-cat="' + ci + '" data-field="color"><option value="rose"' + (cat.color==='rose'?' selected':'') + '>rose</option><option value="blue"' + (cat.color==='blue'?' selected':'') + '>blue</option></select></div>';
     html += '</div>';
 
     cat.products.forEach(function(prod, pi) {
       html += '<div style="background:#f9fafb;border-radius:8px;padding:0.85rem;margin-bottom:0.5rem;border:1px solid var(--border);">';
       html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">';
-      html += '<strong style="font-size:0.85rem;">馃摝 浜у搧 #' + (pi+1) + ' —' + esc(prod.name) + '</strong>';
-      html += '<button class="btn btn-outline" onclick="deleteProduct(' + ci + ',' + pi + ')" style="font-size:0.7rem;padding:0.2rem 0.5rem;color:#e74c3c;border-color:#fce4e4;">鉁?鍒犻櫎</button>';
+      html += '<strong style="font-size:0.85rem;">📦 产品 #' + (pi+1) + ' ' + esc(prod.name) + '</strong>';
+      html += '<button class="btn btn-outline" onclick="deleteProduct(' + ci + ',' + pi + ')" style="font-size:0.7rem;padding:0.2rem 0.5rem;color:#e74c3c;border-color:#fce4e4;">删除</button>';
       html += '</div>';
       html += '<div class="specs-grid">';
-      html += '<div class="form-group"><div class="form-label">浜у搧ID</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="id" value="' + esc(prod.id) + '"></div>';
-      html += '<div class="form-group"><div class="form-label">鍚嶇О</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="name" value="' + esc(prod.name) + '"></div>';
-      html += '<div class="form-group"><div class="form-label">鍥剧墖ID</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="image" value="' + esc(prod.image) + '" placeholder="product-cotton-pad"></div>';
+      html += '<div class="form-group"><div class="form-label">产品ID</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="id" value="' + esc(prod.id) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">名称</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="name" value="' + esc(prod.name) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">图片ID</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="image" value="' + esc(prod.image) + '" placeholder="product-cotton-pad"></div>';
       html += '<div class="form-group"><div class="form-label">MOQ</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="moq" value="' + esc(prod.moq) + '"></div>';
-      html += '<div class="form-group"><div class="form-label">璁よ瘉</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="certification" value="' + esc(prod.certification) + '"></div>';
-      html += '<div class="form-group"><div class="form-label">灏哄</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="size" value="' + esc(prod.size) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">认证</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="certification" value="' + esc(prod.certification) + '"></div>';
+      html += '<div class="form-group"><div class="form-label">尺寸</div><input class="form-input prod-field" data-cat="' + ci + '" data-prod="' + pi + '" data-field="size" value="' + esc(prod.size) + '"></div>';
       html += '</div></div>';
     });
 
     html += '</div>';
   });
 
-  html += '<button class="btn btn-primary" onclick="addCategory()" style="margin-top:0.5rem;">+ 娣诲姞鍝佺被</button>';
-  html += '<p style="font-size:0.75rem;color:var(--text2);margin-top:0.5rem;">淇敼鍚庨渶鐐瑰嚮椤堕儴"鐢熸垚缃戠珯鍖?鎵嶈兘瀵煎嚭鍒?product.html</p>';
+  html += '<button class="btn btn-primary" onclick="addCategory()" style="margin-top:0.5rem;">+ 添加品类</button>';
+  html += '<p style="font-size:0.75rem;color:var(--text2);margin-top:0.5rem;">修改后需点击顶部"生成网站"才能导出到 product.html</p>';
 
   container.innerHTML = html;
 }
 
 function addCategory() {
-  if (!productDataEdited) return showToast('璇峰厛鍔犺浇浜у搧鏁版嵁', 'error');
+  if (!productDataEdited) return showToast('请先加载产品数据', 'error');
   var data = JSON.parse(productDataEdited);
-  data.categories.push({ id: 'new-category', name: 'New Category', icon: '馃摝', color: 'rose', products: [{ id: 'new-product', name: 'New Product', image: 'placeholder', moq: 'TBD', certification: 'ISO, CE', size: 'TBD' }] });
+  data.categories.push({ id: 'new-category', name: 'New Category', icon: '📦', color: 'rose', products: [{ id: 'new-product', name: 'New Product', image: 'placeholder', moq: 'TBD', certification: 'ISO, CE', size: 'TBD' }] });
   productDataEdited = JSON.stringify(data, null, 2);
   renderProductDataEditor(data);
 }
 
 function addProduct(ci) {
-  if (!productDataEdited) return showToast('璇峰厛鍔犺浇浜у搧鏁版嵁', 'error');
+  if (!productDataEdited) return showToast('请先加载产品数据', 'error');
   var data = JSON.parse(productDataEdited);
   if (!data.categories[ci]) return;
   data.categories[ci].products.push({ id: 'new-product-' + Date.now(), name: 'New Product', image: 'placeholder', moq: 'TBD', certification: 'ISO, CE', size: 'TBD' });
@@ -615,7 +615,7 @@ function addProduct(ci) {
 
 function deleteCategory(ci) {
   if (!productDataEdited) return;
-  if (!confirm('纭畾鍒犻櫎杩欎釜鍝佺被鍙婂叾鎵€鏈変骇鍝侊紵')) return;
+  if (!confirm('确认删除这个品类及其所有产品？')) return;
   var data = JSON.parse(productDataEdited);
   data.categories.splice(ci, 1);
   productDataEdited = JSON.stringify(data, null, 2);
@@ -624,7 +624,7 @@ function deleteCategory(ci) {
 
 function deleteProduct(ci, pi) {
   if (!productDataEdited) return;
-  if (!confirm('纭畾鍒犻櫎杩欎釜浜у搧锛?)) return;
+  if (!confirm('确认删除这个产品?)) return;
   var data = JSON.parse(productDataEdited);
   if (!data.categories[ci]) return;
   data.categories[ci].products.splice(pi, 1);
@@ -666,38 +666,37 @@ function esc(s) {
 // BUILD SEO FIELDS
 // ============================================================
 const SEO_PAGES = [
-  ['home', '棣栭〉'],
-  ['about_page', '鍏充簬鎴戜滑'],
-  ['factory_page', '宸ュ巶瀹炲姏'],
-  ['quality_page', '璐ㄦ璁よ瘉'],
-  ['contact_page', '鑱旂郴鎴戜滑'],
-  ['product_page_sanitary', '浜у搧椤?鍗敓宸?],
-  ['product_page_adult', '浜у搧椤?绾稿翱瑁?],
-  ['knowledge', '鐭ヨ瘑涓績'],
-  ['stats', '鏁版嵁缁熻'],
+  ['home', '首页'],
+  ['about_page', '关于我们'],
+  ['factory_page', '工厂实力'],
+  ['quality_page', '质检认证'],
+  ['contact_page', '联系我们'],
+  ['product_page_sanitary', '产品 — 卫生巾],
+  ['product_page_adult', '产品 — 成人纸尿裤],
+  ['knowledge', '知识中心'],
+  ['stats', '数据统计'],
 ];
 
 function buildSEOFields() {
   const container = document.getElementById('seoFields');
   const defaultSEO = {
-    home: { title: 'OEM Sanitary Pads & Adult Diapers Manufacturer | Graceful International', title_zh: '鍗敓宸?鎴愪汉绾稿翱瑁EM鍘傚 | 娴峰渤闆嗗洟', desc: 'Professional OEM/ODM manufacturer of sanitary pads and adult diapers. 400-acre factory, 14 automated lines, ISO9001 & ISO13485 certified. Exporting to Europe, America & Korea. Free samples available.', desc_zh: '涓撲笟鍗敓宸惧拰鎴愪汉绾稿翱瑁EM/ODM鍒堕€犲晢銆?00浜╁伐鍘傦紝14鏉″叏鑷姩鐢熶骇绾匡紝ISO9001鍜孖SO13485鍙岃璇併€傚嚭鍙ｆ缇庨煩鍥斤紝鍏嶈垂鏍峰搧銆?, kw: 'OEM sanitary pads manufacturer, adult diapers factory, feminine hygiene OEM, incontinence products manufacturer, private label sanitary napkins, wholesale adult diapers, hygiene products supplier China', kw_zh: '鍗敓宸綩EM鍘傚, 鎴愪汉绾稿翱瑁ゅ伐鍘? 濂虫€у崼鐢熺敤鍝佷唬宸? 澶辩鐢ㄥ搧鐢熶骇鍟? 鍗敓宸捐创鐗? 鎴愪汉绾稿翱瑁ゆ壒鍙? 鍗敓鐢ㄥ搧渚涘簲鍟? },
-    about_page: { title: 'About Us | Graceful International', title_zh: '鍏充簬鎴戜滑 | 娴峰渤闆嗗洟', desc: 'Learn about Graceful International (HK) Limited, a professional hygiene products manufacturer since 2018. 400-acre factory, 14 automated lines, ISO certified.', desc_zh: '浜嗚В娴峰渤闆嗗洟锛堥娓級鑲′唤鏈夐檺鍏徃锛岃嚜2018骞存垚绔嬬殑涓撲笟鍗敓鐢ㄥ搧鍒堕€犲晢銆?00浜╁伐鍘傦紝14鏉′骇绾匡紝ISO鍙岃璇併€?, kw: 'about Graceful International, hygiene products manufacturer, sanitary pads factory China', kw_zh: '娴峰渤闆嗗洟, 鍗敓鐢ㄥ搧鍒堕€犲晢, 鍗敓宸惧伐鍘? },
-    factory_page: { title: 'Factory & Production | Graceful International', title_zh: '宸ュ巶瀹炲姏 | 娴峰渤闆嗗洟', desc: 'Tour our 400-acre manufacturing facility in Weifang, Shandong. 14 automated production lines, 300 professionals, OEM/ODM capabilities.', desc_zh: '鍙傝鎴戜滑浣嶄簬灞变笢娼嶅潑鐨?00浜╃敓浜у熀鍦般€?4鏉″叏鑷姩鐢熶骇绾匡紝300鍚嶄笓涓氫汉鍛橈紝OEM/ODM鑳藉姏銆?, kw: 'sanitary pads factory, adult diapers production line, hygiene products manufacturing facility, Weifang factory, China OEM manufacturer', kw_zh: '鍗敓宸剧敓浜у伐鍘? 鎴愪汉绾稿翱瑁ょ敓浜х嚎, 鍗敓鐢ㄥ搧鐢熶骇鍩哄湴, 娼嶅潑宸ュ巶, OEM鍒堕€犲晢' },
-    quality_page: { title: 'Quality & Certifications | Graceful International', title_zh: '璐ㄩ噺璁よ瘉 | 娴峰渤闆嗗洟', desc: 'ISO 9001 and ISO 13485 certified quality management. In-house lab testing, 30-person QC team, rigorous quality control processes.', desc_zh: 'ISO 9001鍜孖SO 13485璁よ瘉璐ㄩ噺绠＄悊浣撶郴銆傚唴閮ㄥ疄楠屽妫€娴嬶紝30浜鸿川妫€鍥㈤槦锛屼弗鏍艰川鎺ф祦绋嬨€?, kw: 'ISO 9001 sanitary pads, ISO 13485 medical devices, quality certified hygiene products, QC testing lab', kw_zh: 'ISO9001鍗敓宸? ISO13485鍖荤枟鍣ㄦ, 璐ㄩ噺璁よ瘉鍗敓鐢ㄥ搧, 璐ㄦ瀹為獙瀹? },
-    contact_page: { title: 'Contact Us | Graceful International', title_zh: '鑱旂郴鎴戜滑 | 娴峰渤闆嗗洟', desc: 'Contact Graceful International for OEM/ODM sanitary pads and adult diapers manufacturing. Request quotes, free samples, and partnership inquiries.', desc_zh: '鑱旂郴娴峰渤闆嗗洟锛岃幏鍙栧崼鐢熷肪鍜屾垚浜虹焊灏胯￥OEM/ODM鎶ヤ环銆佸厤璐规牱鍝佸拰鍚堜綔鍜ㄨ銆?, kw: 'contact hygiene products manufacturer, OEM sanitary pads inquiry, adult diapers supplier contact, Graceful International contact', kw_zh: '鑱旂郴鍗敓鐢ㄥ搧鍒堕€犲晢, OEM鍗敓宸捐浠? 鎴愪汉绾稿翱瑁や緵搴斿晢鑱旂郴, 娴峰渤闆嗗洟鑱旂郴鏂瑰紡' },
-    product_page_sanitary: { title: 'Sanitary Pads Manufacturing | OEM/ODM Feminine Hygiene Products', title_zh: '鍗敓宸綩EM鍒堕€?| 濂虫€у崼鐢熺敤鍝丱DM鐢熶骇鍟?, desc: 'Professional manufacturer of sanitary pads and feminine hygiene products. OEM/ODM services with ISO9001 & ISO13485 certifications.', desc_zh: '涓撲笟鍗敓宸惧強濂虫€у崼鐢熺敤鍝佸埗閫犲晢銆傛彁渚汷EM/ODM鏈嶅姟锛孖SO9001鍜孖SO13485鍙岃璇併€?, kw: 'sanitary pads, menstrual pads, OEM sanitary napkins, feminine hygiene manufacturer', kw_zh: '鍗敓宸? 鏈堢粡鍨? OEM鍗敓宸? 濂虫€у崼鐢熺敤鍝佸埗閫犲晢' },
-    product_page_adult: { title: 'Adult Diapers Manufacturing | OEM Incontinence Care Products', title_zh: '鎴愪汉绾稿翱瑁EM鍒堕€?| 澶辩鎶ょ悊鐢ㄥ搧鐢熶骇鍟?, desc: 'Professional manufacturer of adult diapers and incontinence care products. ISO13485 certified.', desc_zh: '涓撲笟鎴愪汉绾稿翱瑁ゅ強澶辩鎶ょ悊鐢ㄥ搧鍒堕€犲晢銆侷SO13485璁よ瘉銆?, kw: 'adult diapers, incontinence briefs, OEM adult diaper manufacturer', kw_zh: '鎴愪汉绾稿翱瑁? 澶辩鎶ょ悊瑁? OEM鎴愪汉绾稿翱瑁ょ敓浜у晢' },
-    knowledge: { title: 'Knowledge Hub | Hygiene Industry Guide & Glossary', title_zh: '鐭ヨ瘑涓績 | 鍗敓鐢ㄥ搧琛屼笟鎸囧崡涓庢湳璇〃', desc: 'Hygiene industry knowledge center —OEM manufacturing guide, terminology glossary, and market insights.', desc_zh: '鍗敓鐢ㄥ搧琛屼笟鐭ヨ瘑涓績鈥斺€擮EM鍒堕€犳寚鍗椼€佹湳璇〃鍜屽競鍦烘礊瀵熴€?, kw: 'sanitary pads manufacturing guide, adult diapers OEM guide, hygiene products glossary', kw_zh: '鍗敓宸惧埗閫犳寚鍗? 鎴愪汉绾稿翱瑁EM鎸囧崡, 鍗敓鐢ㄥ搧鏈琛? },
-    stats: { title: 'Industry Statistics | Factory Capacity & Global Market Data', title_zh: '琛屼笟鏁版嵁 | 宸ュ巶浜ц兘涓庡叏鐞冨競鍦虹粺璁?, desc: 'Verified factory capacity data and global hygiene industry statistics.', desc_zh: '缁忚繃楠岃瘉鐨勫伐鍘備骇鑳芥暟鎹拰鍏ㄧ悆鍗敓鐢ㄥ搧琛屼笟缁熻鏁版嵁銆?, kw: 'sanitary pads production capacity, adult diapers manufacturing statistics, hygiene industry data', kw_zh: '鍗敓宸句骇鑳? 鎴愪汉绾稿翱瑁や骇閲忕粺璁? 鍗敓鐢ㄥ搧琛屼笟鏁版嵁' },
+    home: { title: 'OEM Sanitary Pads & Adult Diapers Manufacturer | Graceful International', title_zh: '卫生巾 & 成人纸尿裤 OEM厂家 | 格瑞丝国际', desc: 'Professional OEM/ODM manufacturer of sanitary pads and adult diapers. 400-acre factory, 14 automated lines, ISO9001 & ISO13485 certified. Exporting to Europe, America & Korea. Free samples available.', desc_zh: '专业卫生巾和成人纸尿裤OEM/ODM制造商。400亩工厂，14条全自动生产线，ISO9001和ISO13485双认证。出口欧美韩国，免费样品申请。', kw: 'OEM sanitary pads manufacturer, adult diapers factory, feminine hygiene OEM, incontinence products manufacturer, private label sanitary napkins, wholesale adult diapers, hygiene products supplier China', kw_zh: '卫生巾OEM厂家, 成人纸尿裤工厂, 女性卫生用品代工, 失禁用品生产, 卫生巾贴牌, 成人纸尿裤批发, 卫生用品供应商' },
+    about_page: { title: 'About Us | Graceful International', title_zh: '关于我们 | 格瑞丝国际', desc: 'Learn about Graceful International (HK) Limited, a professional hygiene products manufacturer since 2018. 400-acre factory, 14 automated lines, ISO certified.', desc_zh: '了解格瑞丝国际（香港）股份有限公司，自2018年成立的专业卫生用品制造商。400亩工厂，14条产线，ISO双认证。', kw: 'about Graceful International, hygiene products manufacturer, sanitary pads factory China', kw_zh: '格瑞丝国际, 卫生用品制造商, 卫生巾工厂' },
+    factory_page: { title: 'Factory & Production | Graceful International', title_zh: '工厂实力 | 格瑞丝国际', desc: 'Tour our 400-acre manufacturing facility in Weifang, Shandong. 14 automated production lines, 300 professionals, OEM/ODM capabilities.', desc_zh: '参观我们位于山东潍坊的400亩生产基地。14条全自动生产线，300名专业人员，OEM/ODM能力。', kw: 'sanitary pads factory, adult diapers production line, hygiene products manufacturing facility, Weifang factory, China OEM manufacturer', kw_zh: '卫生巾生产工厂, 成人纸尿裤生产线, 卫生用品生产基地, 潍坊工厂, OEM制造商' },
+    quality_page: { title: 'Quality & Certifications | Graceful International', title_zh: '质量认证 | 格瑞丝国际', desc: 'ISO 9001 and ISO 13485 certified quality management. In-house lab testing, 30-person QC team, rigorous quality control processes.', desc_zh: 'ISO 9001和ISO 13485认证质量管理体系。内部实验室检测，30人质检团队，严格质控流程。', kw: 'ISO 9001 sanitary pads, ISO 13485 medical devices, quality certified hygiene products, QC testing lab', kw_zh: 'ISO9001卫生巾, ISO13485医疗器械, 质量认证卫生用品, 质检实验室' },
+    contact_page: { title: 'Contact Us | Graceful International', title_zh: '联系我们 | 格瑞丝国际', desc: 'Contact Graceful International for OEM/ODM sanitary pads and adult diapers manufacturing. Request quotes, free samples, and partnership inquiries.', desc_zh: '联系格瑞丝国际，获取卫生巾和成人纸尿裤OEM/ODM报价、免费样品和合作咨询。', kw: 'contact hygiene products manufacturer, OEM sanitary pads inquiry, adult diapers supplier contact, Graceful International contact', kw_zh: '联系卫生用品制造商, OEM卫生巾询价, 成人纸尿裤供应商联系, 格瑞丝国际联系方式' },
+    product_page_sanitary: { title: 'Sanitary Pads Manufacturing | OEM/ODM Feminine Hygiene Products', title_zh: '卫生巾OEM制造 | 女性卫生用品ODM生产', desc: 'Professional manufacturer of sanitary pads and feminine hygiene products. OEM/ODM services with ISO9001 & ISO13485 certifications.', desc_zh: '专业卫生巾及女性卫生用品制造商。提供OEM/ODM服务，ISO9001和ISO13485双认证。', kw: 'sanitary pads, menstrual pads, OEM sanitary napkins, feminine hygiene manufacturer', kw_zh: '卫生巾, 月经垫, OEM卫生巾, 女性卫生用品制造商' },
+    product_page_adult: { title: 'Adult Diapers Manufacturing | OEM Incontinence Care Products', title_zh: '成人纸尿裤OEM制造 | 失禁护理用品生产', desc: 'Professional manufacturer of adult diapers and incontinence care products. ISO13485 certified.', desc_zh: '专业成人纸尿裤及失禁护理用品制造商。ISO13485认证。', kw: 'adult diapers, incontinence briefs, OEM adult diaper manufacturer', kw_zh: '成人纸尿裤, 失禁护理, OEM成人纸尿裤生产商' },
+    knowledge: { title: 'Knowledge Hub | Hygiene Industry Guide & Glossary', title_zh: '知识中心 | 卫生用品行业指南与术语表', desc: 'Hygiene industry knowledge center OEM manufacturing guide, terminology glossary, and market insights.', desc_zh: '卫生用品行业知识中心——OEM制造指南、术语表和市场洞察。', kw: 'sanitary pads manufacturing guide, adult diapers OEM guide, hygiene products glossary', kw_zh: '卫生巾制造指南, 成人纸尿裤OEM指南, 卫生用品术语' },
+    stats: { title: 'Industry Statistics | Factory Capacity & Global Market Data', title_zh: '行业数据 | 工厂产能与全球市场统计', desc: 'Verified factory capacity data and global hygiene industry statistics.', desc_zh: '经过验证的工厂产能数据和全球卫生用品行业统计数据。', kw: 'sanitary pads production capacity, adult diapers manufacturing statistics, hygiene industry data', kw_zh: '卫生巾产能, 成人纸尿裤产量统计, 卫生用品行业数据' },
   };
-
   SEO_PAGES.forEach(([key, label]) => {
     const seo = defaultSEO[key] || { title: '', title_zh: '', desc: '', desc_zh: '', kw: '', kw_zh: '' };
     const div = document.createElement('div');
     div.className = 'card';
     div.style.marginBottom = '0.75rem';
     div.innerHTML = `
-      <div class="card-header"><span class="card-title">馃搫 ${label}</span><span style="font-size:0.75rem;color:var(--text2)">key: ${key}</span></div>
+      <div class="card-header"><span class="card-title">📄 ${label}</span><span style="font-size:0.75rem;color:var(--text2)">key: ${key}</span></div>
       <div class="specs-grid">
         <div class="form-group"><div class="form-label">Title (EN)</div><input class="form-input seo-input" data-seo="${key}" data-field="title" value="${escapeHtml(seo.title)}"></div>
         <div class="form-group"><div class="form-label">Title (ZH)</div><input class="form-input seo-input" data-seo="${key}" data-field="title_zh" value="${escapeHtml(seo.title_zh)}"></div>
@@ -776,7 +775,7 @@ async function generateZip() {
   const btn = document.getElementById('btnGenerate');
   const btn2 = document.getElementById('btnGenerate2');
   btn.disabled = true; btn2.disabled = true;
-  btn.textContent = '鈴?鎵撳寘涓?..'; btn2.textContent = '鈴?鎵撳寘涓?..';
+  btn.textContent = '打包中...'; btn2.textContent = '打包中...';
 
   const progressWrap = document.getElementById('progressWrap');
   const progressFill = document.getElementById('progressFill');
@@ -803,7 +802,7 @@ async function generateZip() {
     let done = 0;
 
     // --- 1. Fetch existing files ---
-    log('馃攳 姝ｅ湪璇诲彇缃戠珯鏂囦欢...', 'info');
+    log('🔍 正在读取网站文件...', 'info');
     const fileFetchPromises = SITE_FILES.map(async (path) => {
       try {
         const resp = await fetch('/' + path);
@@ -811,17 +810,17 @@ async function generateZip() {
         const text = await resp.text();
         return { path, text };
       } catch (err) {
-        log(`鈿?鏃犳硶璇诲彇 ${path}: ${err.message}`, 'warn');
+        log(`无法读取 ${path}: ${err.message}`, 'warn');
         return { path, text: null };
       }
     });
 
     const fetchedFiles = await Promise.all(fileFetchPromises);
     done += SITE_FILES.length;
-    setProgress(15, '缃戠珯鏂囦欢璇诲彇瀹屾垚');
+    setProgress(15, '网站文件读取完成');
 
     // --- 2. Process i18n.js with edits ---
-    log('鉁?姝ｅ湪搴旂敤鏂囧瓧淇敼...', 'info');
+    log('正在应用文字修改...', 'info');
     let i18nContent = null;
     for (const f of fetchedFiles) {
       if (f.path === 'js/i18n.js' && f.text) {
@@ -914,11 +913,11 @@ async function generateZip() {
       }
 
       zip.file('js/i18n.js', i18nContent);
-      log('鉁?鏂囧瓧淇敼宸插簲鐢?, 'ok');
+      log('文字修改已应用, 'ok');
     }
 
     // --- 3. Add all fetched files, updating hardcoded contact info ---
-    setProgress(30, '姝ｅ湪鎵撳寘鏂囦欢...');
+    setProgress(30, '正在打包文件...');
     const newEmail = i18nEdits.company_email || 'fiona@gracehygi.com';
     const newPhone = (i18nEdits.company_whatsapp || '+86 19553316597').replace(/\s/g,'').replace(/^\+/,'');
     const newPhoneFull = '+' + newPhone;
@@ -939,17 +938,17 @@ async function generateZip() {
 
     // --- Override with edited products-data.js if modified ---
     if (productDataEdited) {
-      log('鉁?浜у搧鏁版嵁宸叉洿鏂?, 'ok');
+      log('产品数据已更新, 'ok');
       zip.file('js/products-data.js',
         '/**\n * Product Data Configuration\n */\nconst PRODUCT_DATA = ' + productDataEdited + ';\n');
     }
 
-    log('鉁?鑱旂郴鏂瑰紡宸叉洿鏂?, 'ok');
+    log('联系方式已更新, 'ok');
 
-    setProgress(40, '姝ｅ湪澶勭悊鍥剧墖...');
+    setProgress(40, '正在处理图片...');
 
     // --- 4. Process images ---
-    log('馃柤 姝ｅ湪澶勭悊鍥剧墖...', 'info');
+    log('🖼 正在处理图片...', 'info');
 
     // First, add existing images (preserve originals that weren't replaced)
     const existingImageFiles = [
@@ -989,7 +988,7 @@ async function generateZip() {
       if (!slot) continue;
 
       const baseName = slot[1].replace('.jpg', '');
-      log(`  馃攧 ${slot[2]} 鈫?鐢熸垚澶氱増鏈?..`, 'info');
+      log(`  🔄 ${slot[2]} 正在生成多版本..`, 'info');
 
       try {
         // Original JPG
@@ -1011,40 +1010,40 @@ async function generateZip() {
           zip.file('images/' + baseName + '-1280w.jpg', medium.blob);
           zip.file('images/' + baseName + '-1280w.webp', mediumWebp.blob);
 
-          log(`    鉁?768w + 1280w + 鍏ㄥ昂瀵?宸茬敓鎴恅, 'ok');
+          log(`    768w + 1280w + 全尺寸已生成`, 'ok');
         } else {
           // Non-responsive: also regenerate JPG through canvas for consistency
           const jpg = await resizeImage(imgData.dataUrl, slot[3], slot[4], 'jpg', 0.85);
           zip.file('images/' + slot[1], jpg.blob);
-          log(`    鉁?WebP 鐗堟湰宸茬敓鎴恅, 'ok');
+          log(`    WebP 版本已生成`, 'ok');
         }
       } catch (e) {
-        log(`    鈿?鍥剧墖澶勭悊澶辫触: ${e.message}`, 'warn');
+        log(`    ✗ 图片处理失败: ${e.message}`, 'warn');
       }
 
       imgDone++;
-      setProgress(40 + Math.floor(imgDone / Math.max(imgTotal, 1) * 40), '澶勭悊鍥剧墖涓?..');
+      setProgress(40 + Math.floor(imgDone / Math.max(imgTotal, 1) * 40), '处理图片中...');
     }
 
     // --- 5. Finalize ---
-    setProgress(85, '姝ｅ湪鍘嬬缉鎵撳寘...');
-    log('馃棞 姝ｅ湪鍘嬬缉...', 'info');
+    setProgress(85, '正在压缩打包...');
+    log('🗜 正在压缩...', 'info');
 
     const zipBlob = await zip.generateAsync({
       type: 'blob',
       compression: 'DEFLATE',
       compressionOptions: { level: 6 }
     }, (meta) => {
-      setProgress(85 + Math.floor(meta.percent / 100 * 10), `鍘嬬缉涓?${meta.percent.toFixed(0)}%`);
+      setProgress(85 + Math.floor(meta.percent / 100 * 10), `压缩中 ${meta.percent.toFixed(0)}%`);
     });
 
-    setProgress(100, '鎵撳寘瀹屾垚锛佹鍦ㄤ笅杞?..');
-    log(`鉁?鎵撳寘瀹屾垚锛佸叡 ${Object.keys(zip.files).length} 涓枃浠禶, 'ok');
+    setProgress(100, '打包完成！开始下载...');
+    log(`打包完成！共 ${Object.keys(zip.files).length} 个文件`, 'ok');
 
     // Show file list
     const fileListDiv = document.getElementById('fileList');
-    fileListDiv.innerHTML = '<strong>馃搵 鍖呭惈鏂囦欢锛?/strong><br>' + Object.keys(zip.files).slice(0, 30).join('<br>') +
-      (Object.keys(zip.files).length > 30 ? '<br>... 绛夊叡 ' + Object.keys(zip.files).length + ' 涓枃浠? : '');
+    fileListDiv.innerHTML = '<strong>📋 包含文件:</strong><br>' + Object.keys(zip.files).slice(0, 30).join('<br>') +
+      (Object.keys(zip.files).length > 30 ? '<br>... 等共 ' + Object.keys(zip.files).length + ' 个文件' : '');
 
     // Download
     const url = URL.createObjectURL(zipBlob);
@@ -1057,16 +1056,16 @@ async function generateZip() {
     URL.revokeObjectURL(url);
 
     setTimeout(() => {
-      showToast('鉁?缃戠珯鍖呭凡鐢熸垚骞跺紑濮嬩笅杞斤紒涓婁紶鍒?Cloudflare Pages 鍗冲彲鏇存柊銆?, 'success');
+      showToast('网站包已生成并开始下载！上传到 Cloudflare Pages 即可更新网站, 'success');
     }, 500);
 
   } catch (err) {
-    log(`鉂?閿欒: ${err.message}`, 'warn');
+    log(`错误: ${err.message}`, 'warn');
     console.error(err);
-    showToast('鉂?鐢熸垚澶辫触锛? + err.message, 'error');
+    showToast('生成失败: ' + err.message, 'error');
   } finally {
     btn.disabled = false; btn2.disabled = false;
-    btn.textContent = '馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇'; btn2.textContent = '馃摝 鐢熸垚缃戠珯鍖呭苟涓嬭浇';
+    btn.textContent = '📦 生成网站包并下载'; btn2.textContent = '📦 生成网站包并下载';
   }
 }
 
@@ -1092,7 +1091,7 @@ function previewSite() {
 // ============================================================
 function refreshOrders() {
   var container = document.getElementById('ordersContainer');
-  container.innerHTML = '<div class="empty-state">鍔犺浇涓?..</div>';
+  container.innerHTML = '<div class="empty-state">加载中...</div>';
 
   var orders = [];
   var source = '';
@@ -1106,7 +1105,7 @@ function refreshOrders() {
     .then(function(data) {
       if (data.success) {
         orders = data.orders || [];
-        source = '鏈嶅姟鍣?(KV)';
+        source = '服务器 (KV)';
         renderOrders(orders, source);
       }
     })
@@ -1116,23 +1115,23 @@ function refreshOrders() {
         var raw = localStorage.getItem('gracehygi_oem_orders');
         if (raw) {
           orders = JSON.parse(raw).reverse();
-          source = '鏈湴瀛樺偍 (娴忚鍣?';
+          source = '本地存储 (浏览器';
         } else {
-          source = '鏃犳暟鎹?;
+          source = '无数据;
         }
         renderOrders(orders, source);
       } catch(e) {
-        container.innerHTML = '<div class="empty-state">鈿?鍔犺浇澶辫触: ' + e.message + '</div>';
+        container.innerHTML = '<div class="empty-state">加载失败: ' + e.message + '</div>';
       }
     });
 }
 
 function renderOrders(orders, source) {
   var container = document.getElementById('ordersContainer');
-  document.getElementById('orderSource').textContent = source + ' 路 ' + orders.length + ' 鏉?;
+  document.getElementById('orderSource').textContent = source + ' · ' + orders.length + ' ?;
 
   if (orders.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">馃摥</div>鏆傛棤OEM瀹氬埗璁㈠崟<br><small>褰撳鎴烽€氳繃OEM椤甸潰鎻愪氦璁㈠崟鍚庯紝杩欓噷灏嗘樉绀鸿鍗曡鎯?/small></div>';
+    container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">📭</div>暂无OEM定制订单<br><small>当用户通过OEM页面提交订单后，这里将显示订单/small></div>';
     return;
   }
 
@@ -1149,21 +1148,21 @@ function renderOrders(orders, source) {
     html += '<span style="font-size:0.75rem;color:var(--text2);">' + formatDate(ts) + '</span>';
     html += '</div>';
     html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem 1.5rem;font-size:0.85rem;">';
-    html += '<div><strong>濮撳悕:</strong> ' + esc(order.name) + '</div>';
-    html += '<div><strong>閭:</strong> ' + esc(order.email) + '</div>';
-    html += '<div><strong>鐢佃瘽:</strong> ' + esc(order.phone) + '</div>';
-    html += '<div><strong>鍏徃:</strong> ' + esc(order.company || '-') + '</div>';
-    html += '<div><strong>鍥藉:</strong> ' + esc(order.country) + '</div>';
-    html += '<div><strong>棰勮鏈堥噺:</strong> ' + esc(order.quantity || '-') + '</div>';
-    html += '<div><strong>灏哄:</strong> ' + esc(sizes) + '</div>';
-    html += '<div><strong>椤跺眰闈㈡枡:</strong> ' + esc(order.topsheet || '-') + '</div>';
-    html += '<div><strong>搴曡啘:</strong> ' + esc(order.bottomfilm || '-') + '</div>';
-    html += '<div><strong>鍔熻兘鑺墖:</strong> ' + esc(order.chip || '-') + '</div>';
-    html += '<div><strong>鍖呰:</strong> ' + esc(packaging) + '</div>';
-    html += '<div><strong>澶勭悊璇存槑:</strong> ' + esc(disposal) + '</div>';
-    if (order.packaging_notes) html += '<div style="grid-column:1/-1;"><strong>鍖呰澶囨敞:</strong> ' + esc(order.packaging_notes) + '</div>';
-    if (order.disposal_notes) html += '<div style="grid-column:1/-1;"><strong>澶勭悊澶囨敞:</strong> ' + esc(order.disposal_notes) + '</div>';
-    if (order.message) html += '<div style="grid-column:1/-1;padding:0.5rem;background:#f9fafb;border-radius:4px;"><strong>瀹㈡埛鐣欒█:</strong> ' + esc(order.message) + '</div>';
+    html += '<div><strong>姓名:</strong> ' + esc(order.name) + '</div>';
+    html += '<div><strong>邮箱:</strong> ' + esc(order.email) + '</div>';
+    html += '<div><strong>电话:</strong> ' + esc(order.phone) + '</div>';
+    html += '<div><strong>公司:</strong> ' + esc(order.company || '-') + '</div>';
+    html += '<div><strong>国家:</strong> ' + esc(order.country) + '</div>';
+    html += '<div><strong>预计月量:</strong> ' + esc(order.quantity || '-') + '</div>';
+    html += '<div><strong>尺寸:</strong> ' + esc(sizes) + '</div>';
+    html += '<div><strong>顶层面料:</strong> ' + esc(order.topsheet || '-') + '</div>';
+    html += '<div><strong>底膜:</strong> ' + esc(order.bottomfilm || '-') + '</div>';
+    html += '<div><strong>功能芯片:</strong> ' + esc(order.chip || '-') + '</div>';
+    html += '<div><strong>包装:</strong> ' + esc(packaging) + '</div>';
+    html += '<div><strong>处理说明:</strong> ' + esc(disposal) + '</div>';
+    if (order.packaging_notes) html += '<div style="grid-column:1/-1;"><strong>包装备注:</strong> ' + esc(order.packaging_notes) + '</div>';
+    if (order.disposal_notes) html += '<div style="grid-column:1/-1;"><strong>处理备注:</strong> ' + esc(order.disposal_notes) + '</div>';
+    if (order.message) html += '<div style="grid-column:1/-1;padding:0.5rem;background:#f9fafb;border-radius:4px;"><strong>客户留言:</strong> ' + esc(order.message) + '</div>';
     html += '</div></div>';
   });
 
@@ -1175,7 +1174,7 @@ function renderOrders(orders, source) {
 // ============================================================
 function refreshCustomOrders() {
   var container = document.getElementById('customOrdersContainer');
-  container.innerHTML = '<div class="empty-state">鍔犺浇涓?..</div>';
+  container.innerHTML = '<div class="empty-state">加载中...</div>';
 
   var orders = [];
   var source = '';
@@ -1188,7 +1187,7 @@ function refreshCustomOrders() {
     .then(function(data) {
       if (data.success) {
         orders = data.orders || [];
-        source = '鏈嶅姟鍣?(KV)';
+        source = '服务器 (KV)';
         renderCustomOrders(orders, source);
       }
     })
@@ -1197,23 +1196,23 @@ function refreshCustomOrders() {
         var raw = localStorage.getItem('gracehygi_custom_orders');
         if (raw) {
           orders = JSON.parse(raw).reverse();
-          source = '鏈湴瀛樺偍 (娴忚鍣?';
+          source = '本地存储 (浏览器';
         } else {
-          source = '鏃犳暟鎹?;
+          source = '无数据;
         }
         renderCustomOrders(orders, source);
       } catch(e) {
-        container.innerHTML = '<div class="empty-state">鈿?鍔犺浇澶辫触: ' + e.message + '</div>';
+        container.innerHTML = '<div class="empty-state">加载失败: ' + e.message + '</div>';
       }
     });
 }
 
 function renderCustomOrders(orders, source) {
   var container = document.getElementById('customOrdersContainer');
-  document.getElementById('customOrderSource').textContent = source + ' 路 ' + orders.length + ' 鏉?;
+  document.getElementById('customOrderSource').textContent = source + ' · ' + orders.length + ' ?;
 
   if (orders.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">馃摥</div>鏆傛棤Custom瀹氬埗璁㈠崟<br><small>褰撳鎴烽€氳繃Custom椤甸潰鎻愪氦璁㈠崟鍚庯紝杩欓噷灏嗘樉绀鸿鍗曡鎯?/small></div>';
+    container.innerHTML = '<div class="empty-state"><div style="font-size:3rem;margin-bottom:0.5rem;">📭</div>暂无Custom定制订单<br><small>当用户通过Custom页面提交订单后，这里将显示订单/small></div>';
     return;
   }
 
@@ -1227,19 +1226,19 @@ function renderCustomOrders(orders, source) {
     html += '<span style="font-size:0.75rem;color:var(--text2);">' + formatDate(ts) + '</span>';
     html += '</div>';
     html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem 1.5rem;font-size:0.85rem;">';
-    html += '<div><strong>濮撳悕:</strong> ' + esc(order.name) + '</div>';
-    html += '<div><strong>閭:</strong> ' + esc(order.email) + '</div>';
-    html += '<div><strong>鐢佃瘽:</strong> ' + esc(order.phone || '-') + '</div>';
-    html += '<div><strong>鍏徃:</strong> ' + esc(order.company || '-') + '</div>';
-    html += '<div><strong>鍥藉:</strong> ' + esc(order.country || '-') + '</div>';
-    html += '<div><strong>棰勮鏈堥噺:</strong> ' + esc(order.quantity || '-') + '</div>';
-    html += '<div><strong>灏哄:</strong> ' + esc(order.size || '-') + '</div>';
-    html += '<div><strong>鍔熻兘鑺墖:</strong> ' + esc(order.chip || '-') + '</div>';
-    html += '<div><strong>鐨偆鎺ヨЕ灞?</strong> ' + esc(order.layer || '-') + '</div>';
-    html += '<div><strong>鍖呰鑶?</strong> ' + esc(order.wrapper || '-') + '</div>';
-    html += '<div><strong>灞曠ず/鏈哄櫒:</strong> ' + esc(order.display || '-') + '</div>';
-    html += '<div><strong>澶栧寘瑁?</strong> ' + esc(order.package || '-') + '</div>';
-    if (order.message) html += '<div style="grid-column:1/-1;padding:0.5rem;background:#f9fafb;border-radius:4px;"><strong>瀹㈡埛鐣欒█:</strong> ' + esc(order.message) + '</div>';
+    html += '<div><strong>姓名:</strong> ' + esc(order.name) + '</div>';
+    html += '<div><strong>邮箱:</strong> ' + esc(order.email) + '</div>';
+    html += '<div><strong>电话:</strong> ' + esc(order.phone || '-') + '</div>';
+    html += '<div><strong>公司:</strong> ' + esc(order.company || '-') + '</div>';
+    html += '<div><strong>国家:</strong> ' + esc(order.country || '-') + '</div>';
+    html += '<div><strong>预计月量:</strong> ' + esc(order.quantity || '-') + '</div>';
+    html += '<div><strong>尺寸:</strong> ' + esc(order.size || '-') + '</div>';
+    html += '<div><strong>功能芯片:</strong> ' + esc(order.chip || '-') + '</div>';
+    html += '<div><strong>面层接触</strong> ' + esc(order.layer || '-') + '</div>';
+    html += '<div><strong>内包装:</strong> ' + esc(order.wrapper || '-') + '</div>';
+    html += '<div><strong>展示/机器:</strong> ' + esc(order.display || '-') + '</div>';
+    html += '<div><strong>外包装:</strong> ' + esc(order.package || '-') + '</div>';
+    if (order.message) html += '<div style="grid-column:1/-1;padding:0.5rem;background:#f9fafb;border-radius:4px;"><strong>客户留言:</strong> ' + esc(order.message) + '</div>';
     html += '</div></div>';
   });
 
@@ -1287,8 +1286,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </div><!-- /adminMain -->
 
 <script>
-// ---------- 鐧诲綍閫昏緫 ----------
-const ADMIN_PASSWORD = 'gracehygi2024';  // 榛樿瀵嗙爜锛岄儴缃插悗鍙慨鏀?
+// ---------- 登录逻辑 ----------
+const ADMIN_PASSWORD = 'gracehygi2024';  // 默认密码，部署后可修改
 function checkAuth() {
   var authed = sessionStorage.getItem('gracehygi_admin_auth');
   if (authed === '1') {
@@ -1305,7 +1304,7 @@ function doLogin() {
     document.getElementById('adminMain').style.display = '';
     document.getElementById('loginError').textContent = '';
   } else {
-    document.getElementById('loginError').textContent = '瀵嗙爜閿欒锛岃閲嶈瘯';
+    document.getElementById('loginError').textContent = '密码错误，请重试';
     document.getElementById('loginPassword').value = '';
   }
 }
